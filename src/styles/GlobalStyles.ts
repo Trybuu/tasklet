@@ -6,4 +6,12 @@ export const GlobalStyles = createGlobalStyle`
         padding: 0;
         box-sizing: border-box;
     }
+
+    html{
+        font-family: 'Inter', sans-serif;
+    }
+
+    input{
+        font-family: 'Inter', sans-serif;
+    }
 `
