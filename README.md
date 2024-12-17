@@ -15,6 +15,20 @@ Although Tasklet currently runs in a local environment, it demonstrates the use 
 ## Instalation
 
 1. Clone repository.
-```
-git clone 
-```
+  ```
+  git clone https://github.com/Trybuu/tasklet.git
+  ```
+
+2. Navigate to the project dictionary.
+  ```
+  cd tasklet
+  ```
+3. Install dependencies.
+   ```
+   npm install
+   ```
+4. Run project.
+   ```
+   npm run dev
+   ```
+5. Open your browser at localhost:5173
