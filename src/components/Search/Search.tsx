@@ -1,21 +1,26 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { FiSearch } from 'react-icons/fi'
 import styled from 'styled-components'
 
 const SearchContainer = styled.div`
   display: flex;
-  overflow: hidden;
 `
 
 const SearchInput = styled.input<{ $isExpanded: boolean }>`
   position: relative;
-  top: 0;
-  left: ${({ $isExpanded }) => ($isExpanded ? '0' : '100%')};
+  width: 100%;
   padding: 1rem;
-  border: none;
+
+  border: 1px solid ${({ theme }) => theme.colors.lightGray};
+  border-right: none;
   border-radius: 0.5rem 0 0 0.5rem;
   outline: none;
   z-index: 1;
+  opacity: ${({ $isExpanded }) => ($isExpanded ? '1' : '0')};
+  pointer-events: ${({ $isExpanded }) => ($isExpanded ? 'auto' : 'none')};
+  transform: ${({ $isExpanded }) => ($isExpanded ? 'scaleX(1)' : 'scaleX(0)')};
+  transform-origin: right;
+  transition: transform 0.2s ease-in-out, opacity 0.2s ease-in-out;
 `
 
 const SearchButton = styled.button<{ $isExpanded: boolean }>`
@@ -23,24 +28,31 @@ const SearchButton = styled.button<{ $isExpanded: boolean }>`
   font-size: 1rem;
   color: ${({ theme }) => theme.colors.gray};
   background: ${({ theme }) => theme.colors.white};
-  border: none;
+  border: 1px solid ${({ theme }) => theme.colors.lightGray};
   border-radius: ${({ $isExpanded }) =>
     $isExpanded ? '0 .5rem .5rem 0' : '.5rem'};
-  z-index: 10;
   cursor: pointer;
 `
 
 export const Search: React.FC = () => {
   const [isExpanded, setIsExpanded] = useState<boolean>(false)
+  const inputRef = useRef<HTMLInputElement | null>(null)
 
   function handleOnClick() {
-    if (isExpanded) setIsExpanded(false)
-    else setIsExpanded(true)
+    if (isExpanded) {
+      setIsExpanded(false)
+    } else {
+      setIsExpanded(true)
+
+      if (inputRef.current) {
+        inputRef.current.focus()
+      }
+    }
   }
 
   return (
     <SearchContainer>
-      <SearchInput type="text" $isExpanded={isExpanded} />
+      <SearchInput type="text" ref={inputRef} $isExpanded={isExpanded} />
       <SearchButton onClick={handleOnClick} $isExpanded={isExpanded}>
         <FiSearch />
       </SearchButton>

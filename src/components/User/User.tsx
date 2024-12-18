@@ -7,7 +7,7 @@ const Button = styled.button`
   color: ${({ theme }) => theme.colors.accent};
 
   background-color: ${({ theme }) => theme.colors.white};
-  border: none;
+  border: 1px solid ${({ theme }) => theme.colors.lightGray};
   border-radius: 0.5rem;
   transition: 0.2s ease-in-out;
   cursor: pointer;
