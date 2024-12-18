@@ -1,7 +1,9 @@
 import styled from 'styled-components'
 
 const StyledLogo = styled.h1`
-  font-family: 'Leckerli One', cursive;
+  font-family: 'Caveat Brush', serif;
+  font-weight: 400;
+  font-style: normal;
   margin-right: auto;
   color: ${({ theme }) => theme.colors.accent};
 `
