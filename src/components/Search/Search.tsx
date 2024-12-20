@@ -53,7 +53,11 @@ export const Search: React.FC = () => {
   return (
     <SearchContainer>
       <SearchInput type="text" ref={inputRef} $isExpanded={isExpanded} />
-      <SearchButton onClick={handleOnClick} $isExpanded={isExpanded}>
+      <SearchButton
+        onClick={handleOnClick}
+        $isExpanded={isExpanded}
+        aria-label="search-button"
+      >
         <FiSearch />
       </SearchButton>
     </SearchContainer>

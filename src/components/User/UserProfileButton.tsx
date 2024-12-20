@@ -22,5 +22,5 @@ export const UserProfileButton: React.FC<UserProfileButtonProps> = ({
 }) => {
   const firstLetter = username[0]
 
-  return <Button>{firstLetter}</Button>
+  return <Button aria-label="user-profile-button">{firstLetter}</Button>
 }

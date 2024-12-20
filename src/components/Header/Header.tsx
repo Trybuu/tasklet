@@ -21,7 +21,7 @@ const Header: React.FC = () => {
     <StyledHeader>
       <Logo />
       <Search />
-      <UserProfileButton username="G" />
+      <UserProfileButton username="Guest" />
     </StyledHeader>
   )
 }
