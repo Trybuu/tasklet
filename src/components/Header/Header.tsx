@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { Logo } from '../Logo'
 import { Search } from '../Search'
-import { User } from '../User/User'
+import { UserProfileButton } from '../User/UserProfileButton'
 
 const StyledHeader = styled.header`
   display: grid;
@@ -21,7 +21,7 @@ const Header: React.FC = () => {
     <StyledHeader>
       <Logo />
       <Search />
-      <User />
+      <UserProfileButton username="G" />
     </StyledHeader>
   )
 }

@@ -13,6 +13,14 @@ const Button = styled.button`
   cursor: pointer;
 `
 
-export const User: React.FC = () => {
-  return <Button>G</Button>
+interface UserProfileButtonProps {
+  username: string
+}
+
+export const UserProfileButton: React.FC<UserProfileButtonProps> = ({
+  username,
+}) => {
+  const firstLetter = username[0]
+
+  return <Button>{firstLetter}</Button>
 }

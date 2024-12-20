@@ -1,3 +1,3 @@
-import { User } from './User'
+import { UserProfileButton } from './UserProfileButton'
 
-export { User }
+export { UserProfileButton }
