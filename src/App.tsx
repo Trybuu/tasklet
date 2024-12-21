@@ -1,5 +1,7 @@
 import styled from 'styled-components'
 import Header from './components/Header/Header'
+import { Sidebar } from './components/Sidebar'
+import { Board } from './components/Board'
 
 const Main = styled.main`
   display: grid;
@@ -13,6 +15,8 @@ const App: React.FC = () => {
   return (
     <Main>
       <Header />
+      <Sidebar />
+      <Board />
     </Main>
   )
 }
