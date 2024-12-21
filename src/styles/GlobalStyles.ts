@@ -14,4 +14,8 @@ export const GlobalStyles = createGlobalStyle`
     input{
         font-family: 'Inter', sans-serif;
     }
+    
+    h2,h3,h4,h5,h6{
+        font-weight: 600;
+    }
 `
