@@ -1,22 +1,54 @@
 import styled from 'styled-components'
-import { TasksSectionTitle } from '../TasksSectionTitle'
+import { TaskInterface } from '../Board'
+import { TaskSection } from '../TaskSection/TaskSection'
 
 const StyledTasks = styled.section`
   grid-row: 4/13;
   display: flex;
+  gap: 1rem;
+  justify-content: flex-start;
+  overflow-x: auto;
 `
 
-const Tasks: React.FC = () => {
+export interface SectionInterface {
+  id: string
+  title: string
+  status: string
+}
+
+const sections: SectionInterface[] = [
+  {
+    id: 'section-tasks-planned',
+    title: 'Zaplanowane',
+    status: 'planned',
+  },
+  {
+    id: 'section-tasks-in-progress',
+    title: 'W trakcie',
+    status: 'in-progress',
+  },
+  {
+    id: 'section-tasks-completed',
+    title: 'Wykonane',
+    status: 'completed',
+  },
+]
+
+interface TasksProps {
+  tasks: TaskInterface[]
+}
+
+const Tasks: React.FC<TasksProps> = ({ tasks }) => {
   return (
     <StyledTasks>
-      <section id="section-tasks-planned">
-        <TasksSectionTitle title="Zaplanowane" tasksNumber={3} />
-      </section>
-      <section id="section-tasks-in-progress"></section>
-      <TasksSectionTitle title="W trakcie" tasksNumber={1} />
-      <section id="section-tasks-completed">
-        <TasksSectionTitle title="Wykonane" tasksNumber={12} />
-      </section>
+      {sections.map((section) => (
+        <TaskSection
+          key={section.id}
+          id={section.id}
+          title={section.title}
+          tasks={tasks.filter((task) => task.status === section.status)}
+        />
+      ))}
     </StyledTasks>
   )
 }
