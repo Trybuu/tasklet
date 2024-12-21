@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-const StyledBoardInfo = styled.div`
+const StyledBoardInfo = styled.header`
   padding: 1rem 0;
 `
 
