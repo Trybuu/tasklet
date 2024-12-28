@@ -7,7 +7,7 @@ const StyledBoard = styled.section`
 `
 
 export interface Task {
-  id: number
+  id: string
   title: string
   description: string
   icon: string
@@ -18,7 +18,7 @@ export interface Task {
 
 const tasks: Task[] = [
   {
-    id: 0,
+    id: 'adshaosdf',
     title: 'Wynieść śmieci',
     description: 'Żona mi każe...',
     icon: '🚮',
@@ -27,7 +27,7 @@ const tasks: Task[] = [
     createdAt: new Date().getTime(),
   },
   {
-    id: 1,
+    id: 'asdgaeyfhqwuehdfcv',
     title:
       'Nakarmić psa, który dużo sra no ale co, trzeba zrobić nie ma innej możliwości',
     description:
@@ -38,7 +38,7 @@ const tasks: Task[] = [
     createdAt: new Date().getTime(),
   },
   {
-    id: 2,
+    id: 'hadsb8q43grhasd',
     title: 'Nadmuchać balony na imprezę',
     description: 'Dziś moje urodziny!',
     icon: '🎈',
@@ -47,53 +47,13 @@ const tasks: Task[] = [
     createdAt: new Date().getTime(),
   },
   {
-    id: 3,
+    id: 'khsdv87q34ghb',
     title: 'Nauczyć się 10 angielskich słówek',
     description: 'Angielski trzeba znać',
     icon: '📕',
     status: 'completed',
     priority: 'wysoki',
     createdAt: new Date().getTime(),
-  },
-]
-
-interface Board {
-  boardId: string
-  boardName: string
-  boardIcon: string
-  tasks: Task[]
-}
-
-interface Group {
-  groupId: string
-  groupName: string
-  groupIcon: string
-  boards: Board[]
-}
-
-const data: Group[] = [
-  {
-    groupId: 'asd231',
-    groupName: 'Przyjęcie urodzinowe',
-    groupIcon: '🎉',
-    boards: [
-      {
-        boardId: 'asfdu2390',
-        boardName: 'Plan dzienny',
-        boardIcon: '✅',
-        tasks: [
-          {
-            id: 0,
-            title: 'Wynieść śmieci',
-            description: 'Żona mi każe...',
-            icon: '🚮',
-            status: 'planned',
-            priority: 'niski',
-            createdAt: new Date().getTime(),
-          },
-        ],
-      },
-    ],
   },
 ]
 

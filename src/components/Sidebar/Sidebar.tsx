@@ -6,8 +6,18 @@ const StyledSidebar = styled.nav`
   background: ${({ theme }) => theme.colors.primary};
 `
 
-const Sidebar: React.FC = () => {
-  return <StyledSidebar></StyledSidebar>
+interface SidebarProps {
+  activeGroup: string
+}
+
+const Sidebar: React.FC<SidebarProps> = ({ activeGroup }) => {
+  return (
+    <StyledSidebar>
+      <select>
+        <option value={activeGroup}>{activeGroup}</option>
+      </select>
+    </StyledSidebar>
+  )
 }
 
 export { Sidebar }
