@@ -28,8 +28,10 @@ const tasks: TaskInterface[] = [
   },
   {
     id: 1,
-    title: 'Nakarmić psa',
-    description: 'Piesek głodny',
+    title:
+      'Nakarmić psa, który dużo sra no ale co, trzeba zrobić nie ma innej możliwości',
+    description:
+      'Piesek rasy bulterier, trzeba go nafaszerować ziemniakami aby zdrowo rósł.',
     icon: '🐶',
     status: 'planned',
     priority: 'wysoki',

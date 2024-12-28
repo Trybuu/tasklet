@@ -1,11 +1,27 @@
 import styled from 'styled-components'
 import { TaskInterface } from '../Board'
+import { TaskPriority } from '../TaskPriority'
 
 const StyledTask = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
   padding: 1rem;
   border: 1px solid ${({ theme }) => theme.colors.lightGray};
   border-radius: 0.5rem;
   box-shadow: 0 2px 4px ${({ theme }) => theme.colors.lightGray};
+`
+
+const StyledTaskDescription = styled.p`
+  font-weight: 300;
+`
+
+const StyledTaskIcon = styled.div`
+  font-size: 1.25rem;
+  padding: 1rem;
+  background: ${({ theme }) => theme.colors.primary};
+  border-radius: 50%;
 `
 
 interface TaskProps {
@@ -15,10 +31,10 @@ interface TaskProps {
 const Task: React.FC<TaskProps> = ({ task }) => {
   return (
     <StyledTask draggable>
-      <div>{task.icon}</div>
+      <StyledTaskIcon>{task.icon}</StyledTaskIcon>
       <h3>{task.title}</h3>
-      <p>{task.description}</p>
-      <p>{task.priority}</p>
+      <StyledTaskDescription>{task.description}</StyledTaskDescription>
+      <TaskPriority priority={task.priority} />
     </StyledTask>
   )
 }
