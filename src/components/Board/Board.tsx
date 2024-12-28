@@ -6,7 +6,7 @@ const StyledBoard = styled.section`
   grid-column: 4/13;
 `
 
-export interface TaskInterface {
+export interface Task {
   id: number
   title: string
   description: string
@@ -16,7 +16,7 @@ export interface TaskInterface {
   createdAt: number
 }
 
-const tasks: TaskInterface[] = [
+const tasks: Task[] = [
   {
     id: 0,
     title: 'Wynieść śmieci',
@@ -54,6 +54,46 @@ const tasks: TaskInterface[] = [
     status: 'completed',
     priority: 'wysoki',
     createdAt: new Date().getTime(),
+  },
+]
+
+interface Board {
+  boardId: string
+  boardName: string
+  boardIcon: string
+  tasks: Task[]
+}
+
+interface Group {
+  groupId: string
+  groupName: string
+  groupIcon: string
+  boards: Board[]
+}
+
+const data: Group[] = [
+  {
+    groupId: 'asd231',
+    groupName: 'Przyjęcie urodzinowe',
+    groupIcon: '🎉',
+    boards: [
+      {
+        boardId: 'asfdu2390',
+        boardName: 'Plan dzienny',
+        boardIcon: '✅',
+        tasks: [
+          {
+            id: 0,
+            title: 'Wynieść śmieci',
+            description: 'Żona mi każe...',
+            icon: '🚮',
+            status: 'planned',
+            priority: 'niski',
+            createdAt: new Date().getTime(),
+          },
+        ],
+      },
+    ],
   },
 ]
 
