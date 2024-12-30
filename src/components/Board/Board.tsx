@@ -1,6 +1,8 @@
 import styled from 'styled-components'
 import { BoardInfo } from '../BoardInfo'
 import { Tasks } from '../Tasks/Tasks'
+import { DndProvider } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
 
 const StyledBoard = styled.section`
   grid-column: 4/13;
@@ -61,7 +63,9 @@ const Board: React.FC = () => {
   return (
     <StyledBoard>
       <BoardInfo activeGroup="Wybrana grupa" activeBoard="Wybrana tablica" />
-      <Tasks tasks={tasks} />
+      <DndProvider backend={HTML5Backend}>
+        <Tasks tasks={tasks} />
+      </DndProvider>
     </StyledBoard>
   )
 }

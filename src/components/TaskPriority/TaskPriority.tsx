@@ -2,7 +2,9 @@ import styled from 'styled-components'
 import { MdOutlineWatchLater } from 'react-icons/md'
 
 const StyledTaskPriority = styled.div<{ $priority: string }>`
+  /* Przesunięcie elementu do prawego dolnego rogu elementu rodzica z flexbox column */
   align-self: flex-end;
+  margin-top: auto;
 
   display: flex;
   align-items: center;
