@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import { SelectGroup } from '../SelectGroup'
 import { SelectBoard } from '../SelectBoard'
+import { MainCalendar } from '../MainCalendar'
 
 const StyledSidebar = styled.nav`
   grid-column: 1/4;
@@ -16,6 +17,7 @@ const Sidebar: React.FC = () => {
     <StyledSidebar>
       <SelectGroup />
       <SelectBoard />
+      <MainCalendar />
     </StyledSidebar>
   )
 }

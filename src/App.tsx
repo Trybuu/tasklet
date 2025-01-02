@@ -2,7 +2,6 @@ import styled from 'styled-components'
 import Header from './components/Header/Header'
 import { Sidebar } from './components/Sidebar'
 import { Board } from './components/Board'
-import { useState } from 'react'
 
 const Main = styled.main`
   display: grid;
@@ -30,46 +29,45 @@ interface Board {
   tasks: Task[]
 }
 
-interface Group {
-  groupId: string
-  groupName: string
-  groupIcon: string
-  boards: Board[]
-}
+// interface Group {
+//   groupId: string
+//   groupName: string
+//   groupIcon: string
+//   boards: Board[]
+// }
 
-const data: Group[] = [
-  {
-    groupId: 'asd231',
-    groupName: 'Przyjęcie urodzinowe',
-    groupIcon: '🎉',
-    boards: [
-      {
-        boardId: 'asfdu2390',
-        boardName: 'Plan dzienny',
-        boardIcon: '✅',
-        tasks: [
-          {
-            id: 'asodjbfiasd7yf9238',
-            title: 'Wynieść śmieci',
-            description: 'Żona mi każe...',
-            icon: '🚮',
-            status: 'planned',
-            priority: 'niski',
-            createdAt: new Date().getTime(),
-          },
-        ],
-      },
-    ],
-  },
-]
+// const data: Group[] = [
+//   {
+//     groupId: 'asd231',
+//     groupName: 'Przyjęcie urodzinowe',
+//     groupIcon: '🎉',
+//     boards: [
+//       {
+//         boardId: 'asfdu2390',
+//         boardName: 'Plan dzienny',
+//         boardIcon: '✅',
+
+//         tasks: [
+//           {
+//             id: 'asodjbfiasd7yf9238',
+//             title: 'Wynieść śmieci',
+//             description: 'Żona mi każe...',
+//             icon: '🚮',
+//             status: 'planned',
+//             priority: 'niski',
+//             createdAt: new Date().getTime(),
+//           },
+//         ],
+//       },
+//     ],
+//   },
+// ]
 
 const App: React.FC = () => {
-  const [activeGroup, setActiveGroup] = useState<string>('asd231')
-
   return (
     <Main>
       <Header />
-      <Sidebar activeGroup={activeGroup} />
+      <Sidebar />
       <Board />
     </Main>
   )
