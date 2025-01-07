@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { Boards } from '../../App'
 
 const SelectBoardWrapper = styled.div``
 
@@ -9,19 +10,32 @@ const SelectBoardList = styled.ul`
   padding: 1rem 0;
 `
 
-const SelectBoardListElement = styled.li`
+const SelectBoardListElement = styled.li<{ $active: boolean }>`
   padding: 1rem;
-  /* background-color: white; */
+  background-color: ${({ $active, theme }) =>
+    $active ? theme.colors.white : 'transparent'};
   border-radius: 0.5rem;
+  cursor: pointer;
 `
 
-const SelectBoard: React.FC = () => {
+interface SelectBoardProps {
+  boards: Boards
+}
+
+const SelectBoard: React.FC<SelectBoardProps> = ({ boards }) => {
+  // if(boards?.length === 0){
+  //   return ()
+  // }
+
   return (
     <SelectBoardWrapper>
       <h3>Tablice</h3>
       <SelectBoardList>
-        <SelectBoardListElement>✅ Zadania główne</SelectBoardListElement>
-        <SelectBoardListElement>🤝 Spotkania</SelectBoardListElement>
+        {boards.map((board) => (
+          <SelectBoardListElement key={board.boardId} $active={board.active}>
+            {board.boardIcon} {board.boardName}
+          </SelectBoardListElement>
+        ))}
       </SelectBoardList>
     </SelectBoardWrapper>
   )
