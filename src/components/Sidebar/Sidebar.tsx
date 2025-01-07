@@ -2,9 +2,10 @@ import styled from 'styled-components'
 import { SelectGroup } from '../SelectGroup'
 import { SelectBoard } from '../SelectBoard'
 import { MainCalendar } from '../MainCalendar'
+import { Action, Boards, Groups } from '../../App'
 
 const StyledSidebar = styled.nav`
-  grid-column: 1/4;
+  grid-column: 1/3;
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -12,11 +13,17 @@ const StyledSidebar = styled.nav`
   background: ${({ theme }) => theme.colors.primary};
 `
 
-const Sidebar: React.FC = () => {
+interface SidebarProps {
+  groups: Groups
+  boards: Boards
+  dispatch: React.Dispatch<Action>
+}
+
+const Sidebar: React.FC<SidebarProps> = ({ groups, boards, dispatch }) => {
   return (
     <StyledSidebar>
-      <SelectGroup />
-      <SelectBoard />
+      <SelectGroup groups={groups} dispatch={dispatch} />
+      <SelectBoard boards={boards} />
       <MainCalendar />
     </StyledSidebar>
   )

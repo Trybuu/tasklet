@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import Header from './components/Header/Header'
 import { Sidebar } from './components/Sidebar'
 import { Board } from './components/Board'
+import { useReducer } from 'react'
 
 const Main = styled.main`
   display: grid;
@@ -12,63 +13,170 @@ const Main = styled.main`
   width: 100vw;
 `
 
-export interface Task {
-  id: string
-  title: string
-  description: string
-  icon: string
-  status: 'planned' | 'in-progress' | 'completed'
-  priority: 'niski' | 'normalny' | 'wysoki'
-  createdAt: number
+export type Action =
+  | { type: 'select_group'; payload: string }
+  | { type: 'add_group'; payload: Group }
+interface Group {
+  groupId: string
+  groupName: string
+  grupIcon: string
+  active: boolean
+  boards: Boards
 }
 
 interface Board {
   boardId: string
   boardName: string
   boardIcon: string
-  tasks: Task[]
+  active: boolean
+  tasks: Todos
 }
 
-// interface Group {
-//   groupId: string
-//   groupName: string
-//   groupIcon: string
-//   boards: Board[]
-// }
+interface Todo {
+  id: string
+  title: string
+  description: string
+  icon: string
+  status: string
+  priority: string
+  createdAt: number
+}
 
-// const data: Group[] = [
-//   {
-//     groupId: 'asd231',
-//     groupName: 'Przyjęcie urodzinowe',
-//     groupIcon: '🎉',
-//     boards: [
-//       {
-//         boardId: 'asfdu2390',
-//         boardName: 'Plan dzienny',
-//         boardIcon: '✅',
+export type Boards = Board[]
+export type Groups = Group[]
+export type Todos = Todo[]
 
-//         tasks: [
-//           {
-//             id: 'asodjbfiasd7yf9238',
-//             title: 'Wynieść śmieci',
-//             description: 'Żona mi każe...',
-//             icon: '🚮',
-//             status: 'planned',
-//             priority: 'niski',
-//             createdAt: new Date().getTime(),
-//           },
-//         ],
-//       },
-//     ],
-//   },
-// ]
+interface InitialState {
+  groups: Groups
+}
+
+const initialState: InitialState = {
+  groups: [
+    {
+      groupId: '210239eu',
+      groupName: 'Remont mieszkania',
+      grupIcon: '🏠',
+      active: true,
+      boards: [
+        {
+          boardId: '378468da',
+          boardName: 'Zadania codzienne',
+          boardIcon: '✅',
+          active: true,
+          tasks: [
+            {
+              id: 'hadsb8q43grhasd',
+              title: 'Nadmuchać balony na imprezę',
+              description: 'Dziś moje urodziny!',
+              icon: '🎈',
+              status: 'in-progress',
+              priority: 'normalny',
+              createdAt: new Date().getTime(),
+            },
+            {
+              id: 'khsdv87q34ghb',
+              title: 'Nauczyć się 10 angielskich słówek',
+              description: 'Angielski trzeba znać',
+              icon: '📕',
+              status: 'completed',
+              priority: 'wysoki',
+              createdAt: new Date().getTime(),
+            },
+          ],
+        },
+        {
+          boardId: '378468fa',
+          boardName: 'Sprawy do zlecenia',
+          boardIcon: '🛠️',
+          active: false,
+          tasks: [],
+        },
+      ],
+    },
+    {
+      groupId: '7634872sf',
+      groupName: 'Przyjęcie urodzinowe',
+      grupIcon: '🍷',
+      active: false,
+      boards: [
+        {
+          boardId: '37846asfad',
+          boardName: 'Spotkania',
+          boardIcon: '🤝',
+          active: true,
+          tasks: [
+            {
+              id: 'sdfsdfs3',
+              title: 'Spotkać się z dekoratorką',
+              description: 'Dom musi być perfekcyjnie przygotowany!',
+              icon: '🎈',
+              status: 'planned',
+              priority: 'normalny',
+              createdAt: new Date().getTime(),
+            },
+            {
+              id: 'khsdfsdf2hb',
+              title: 'Nauczyć się 10 angielskich słówek',
+              description: 'Angielski trzeba znać',
+              icon: '📕',
+              status: 'completed',
+              priority: 'wysoki',
+              createdAt: new Date().getTime(),
+            },
+          ],
+        },
+      ],
+    },
+  ],
+}
+
+function reducer(state: InitialState, action: Action) {
+  switch (action.type) {
+    case 'select_group':
+      return {
+        ...state,
+        groups: state.groups.map((group) =>
+          group.groupId === action.payload
+            ? { ...group, active: true }
+            : { ...group, active: false },
+        ),
+      }
+    case 'add_group':
+      return {
+        ...state,
+        ...action.payload,
+      }
+  }
+}
 
 const App: React.FC = () => {
+  const [state, dispatch] = useReducer(reducer, initialState)
+
+  const activeGroup = state.groups.filter((group) => group.active === true)
+  const activeBoards = activeGroup[0].boards
+  const activeBoard = activeBoards?.filter((board) => board?.active === true)
+  const activeTasks = activeBoard[0]?.tasks
+
+  console.log('😊😊 Active Tasks')
+  console.log(activeTasks)
+
+  if (!activeGroup || !activeBoard) {
+    return <p>Loading...</p>
+  }
+
   return (
     <Main>
       <Header />
-      <Sidebar />
-      <Board />
+      <Sidebar
+        groups={state.groups}
+        boards={activeBoards}
+        dispatch={dispatch}
+      />
+      <Board
+        activeGroupName={activeGroup[0].groupName}
+        activeBoardName={activeBoard[0].boardName}
+        activeTasks={activeTasks}
+      />
     </Main>
   )
 }

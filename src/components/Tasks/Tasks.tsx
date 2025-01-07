@@ -1,6 +1,6 @@
 import styled from 'styled-components'
-import { TaskInterface } from '../Board'
 import { TaskSection } from '../TaskSection/TaskSection'
+import { Todos } from '../../App'
 
 const StyledTasks = styled.section`
   grid-row: 4/13;
@@ -35,22 +35,31 @@ const sections: SectionInterface[] = [
 ]
 
 interface TasksProps {
-  tasks: TaskInterface[]
+  tasks: Todos | undefined
 }
 
 const Tasks: React.FC<TasksProps> = ({ tasks }) => {
-  return (
-    <StyledTasks>
-      {sections.map((section) => (
-        <TaskSection
-          key={section.id}
-          id={section.id}
-          title={section.title}
-          tasks={tasks.filter((task) => task.status === section.status)}
-        />
-      ))}
-    </StyledTasks>
-  )
+  console.log('TASKS z Task')
+  console.log(tasks)
+
+  if (!tasks) {
+    return <p>Brak zadań</p>
+  }
+
+  if (tasks.length >= 0) {
+    return (
+      <StyledTasks>
+        {sections.map((section) => (
+          <TaskSection
+            key={section.id}
+            id={section.id}
+            title={section.title}
+            tasks={tasks.filter((task) => task?.status === section.status)}
+          />
+        ))}
+      </StyledTasks>
+    )
+  }
 }
 
 export { Tasks }
