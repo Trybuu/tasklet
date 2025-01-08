@@ -16,6 +16,7 @@ const Main = styled.main`
 export type Action =
   | { type: 'select_group'; payload: string }
   | { type: 'add_group'; payload: Group }
+  | { type: 'select_board'; payload: string }
 interface Group {
   groupId: string
   groupName: string
@@ -89,7 +90,26 @@ const initialState: InitialState = {
           boardName: 'Sprawy do zlecenia',
           boardIcon: '🛠️',
           active: false,
-          tasks: [],
+          tasks: [
+            {
+              id: 'hadsb8q645645',
+              title: 'Zlecić położenie płytek w łazience',
+              description: 'Pan Zdzisiu to podobno dobry fachura',
+              icon: '🚿',
+              status: 'planned',
+              priority: 'niski',
+              createdAt: new Date().getTime(),
+            },
+            {
+              id: 'khsdv87q35464',
+              title: 'Skoantaktować się z Panem od kuchni na wymiar',
+              description: 'Kacper Kuchenny - 783 235 223',
+              icon: '🧑‍🍳',
+              status: 'in-progress',
+              priority: 'wysoki',
+              createdAt: new Date().getTime(),
+            },
+          ],
         },
       ],
     },
@@ -146,6 +166,24 @@ function reducer(state: InitialState, action: Action) {
         ...state,
         ...action.payload,
       }
+    case 'select_board':
+      return {
+        ...state,
+        groups: state.groups.map((group) =>
+          group.active === true
+            ? {
+                ...group,
+                boards: group.boards.map((board) =>
+                  board.boardId === action.payload
+                    ? { ...board, active: true }
+                    : { ...board, active: false },
+                ),
+              }
+            : group,
+        ),
+      }
+    default:
+      return state
   }
 }
 

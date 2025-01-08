@@ -23,7 +23,7 @@ const Sidebar: React.FC<SidebarProps> = ({ groups, boards, dispatch }) => {
   return (
     <StyledSidebar>
       <SelectGroup groups={groups} dispatch={dispatch} />
-      <SelectBoard boards={boards} />
+      <SelectBoard boards={boards} dispatch={dispatch} />
       <MainCalendar />
     </StyledSidebar>
   )
