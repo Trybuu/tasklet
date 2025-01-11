@@ -16,7 +16,7 @@ const StyledTasksSectionTitleText = styled.h3`
 
 const StyledTasksNumber = styled.p`
   min-width: 3rem;
-  padding: 1rem;
+  padding: 0.5rem;
   text-align: center;
   color: ${({ theme }) => theme.colors.white};
   background-color: ${({ theme }) => theme.colors.gray};

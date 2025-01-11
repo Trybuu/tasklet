@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Boards } from '../../App'
+import { Action, Boards } from '../../App'
 
 const SelectBoardWrapper = styled.div``
 
@@ -20,19 +20,25 @@ const SelectBoardListElement = styled.li<{ $active: boolean }>`
 
 interface SelectBoardProps {
   boards: Boards
+  dispatch: React.Dispatch<Action>
 }
 
-const SelectBoard: React.FC<SelectBoardProps> = ({ boards }) => {
-  // if(boards?.length === 0){
-  //   return ()
-  // }
+const SelectBoard: React.FC<SelectBoardProps> = ({ boards, dispatch }) => {
+  const handleOnClick = (boardId: string) => {
+    console.log(boardId)
+    dispatch({ type: 'select_board', payload: boardId })
+  }
 
   return (
     <SelectBoardWrapper>
       <h3>Tablice</h3>
       <SelectBoardList>
         {boards.map((board) => (
-          <SelectBoardListElement key={board.boardId} $active={board.active}>
+          <SelectBoardListElement
+            key={board.boardId}
+            $active={board.active}
+            onClick={() => handleOnClick(board.boardId)}
+          >
             {board.boardIcon} {board.boardName}
           </SelectBoardListElement>
         ))}

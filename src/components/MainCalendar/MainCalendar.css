@@ -149,6 +149,10 @@
   background: #1087ff;
 }
 
+.react-calendar__tasks-number {
+  font-weight: bolder;
+}
+
 .react-calendar--selectRange .react-calendar__tile--hover {
   background-color: #e6e6e6;
 }
