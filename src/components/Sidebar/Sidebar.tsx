@@ -17,14 +17,20 @@ interface SidebarProps {
   groups: Groups
   boards: Boards
   dispatch: React.Dispatch<Action>
+  tasksByDate: Record<string, number>
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ groups, boards, dispatch }) => {
+const Sidebar: React.FC<SidebarProps> = ({
+  groups,
+  boards,
+  dispatch,
+  tasksByDate,
+}) => {
   return (
     <StyledSidebar>
       <SelectGroup groups={groups} dispatch={dispatch} />
       <SelectBoard boards={boards} dispatch={dispatch} />
-      <MainCalendar />
+      <MainCalendar dispatch={dispatch} tasksByDate={tasksByDate} />
     </StyledSidebar>
   )
 }

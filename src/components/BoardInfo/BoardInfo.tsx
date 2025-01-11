@@ -11,11 +11,19 @@ const StyledActiveBoardTitle = styled.p`
 interface BoardInfoProps {
   activeGroup: string
   activeBoard: string
+  date: Date
 }
 
-const BoardInfo: React.FC<BoardInfoProps> = ({ activeGroup, activeBoard }) => {
+const BoardInfo: React.FC<BoardInfoProps> = ({
+  activeGroup,
+  activeBoard,
+  date,
+}) => {
   return (
     <StyledBoardInfo>
+      <h1>
+        {date.getDate()}/{date.getMonth() + 1}/{date.getFullYear()}
+      </h1>
       <h2>{activeGroup}</h2>
       <StyledActiveBoardTitle>{activeBoard}</StyledActiveBoardTitle>
     </StyledBoardInfo>
