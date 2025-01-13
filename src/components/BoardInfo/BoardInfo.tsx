@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { formatDate } from '../../utils/formatDate'
 
 const StyledBoardInfo = styled.header`
   padding: 1rem 0;
@@ -21,9 +22,7 @@ const BoardInfo: React.FC<BoardInfoProps> = ({
 }) => {
   return (
     <StyledBoardInfo>
-      <h1>
-        {date.getDate()}/{date.getMonth() + 1}/{date.getFullYear()}
-      </h1>
+      <h1>{formatDate(date)}</h1>
       <h2>{activeGroup}</h2>
       <StyledActiveBoardTitle>{activeBoard}</StyledActiveBoardTitle>
     </StyledBoardInfo>
