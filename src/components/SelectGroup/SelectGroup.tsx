@@ -1,8 +1,8 @@
 import styled from 'styled-components'
 import { IoIosArrowDown } from 'react-icons/io'
 import { Action, Groups } from '../../App'
-import { Modal } from '../Modal'
-import { useState } from 'react'
+import { NewGroupButton } from '../NewGroupButton'
+import { SidebarSectionTitle } from '../SidebarSectionTitle'
 
 const StyledSelectWrapper = styled.div`
   position: relative;
@@ -37,24 +37,16 @@ interface SelectGroupProps {
 }
 
 const SelectGroup: React.FC<SelectGroupProps> = ({ groups, dispatch }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false)
-
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    if (e.target.value === 'add_group') {
-      console.log('Dodaj Grupę!')
-      setIsModalOpen(true)
-      // dispatch({ type: 'select_group', payload: e.target.value })
-    } else if (isModalOpen) {
-      setIsModalOpen(false)
-    } else {
-      console.log(e.target.value)
-      dispatch({ type: 'select_group', payload: e.target.value })
-    }
+    dispatch({ type: 'select_group', payload: e.target.value })
   }
 
   return (
     <>
-      <h3>Grupy</h3>
+      <SidebarSectionTitle title="Grupy">
+        <NewGroupButton />
+      </SidebarSectionTitle>
+
       <StyledSelectWrapper>
         <StyledSelect onChange={handleSelectChange}>
           {groups.map((group) => (
@@ -62,15 +54,9 @@ const SelectGroup: React.FC<SelectGroupProps> = ({ groups, dispatch }) => {
               {group.grupIcon} {group.groupName}
             </option>
           ))}
-
-          <option value="add_group">➕ Dodaj grupę</option>
         </StyledSelect>
         <StyledArrowDown />
       </StyledSelectWrapper>
-
-      <Modal open={isModalOpen}>
-        <h2>Modal</h2>
-      </Modal>
     </>
   )
 }
