@@ -4,6 +4,7 @@ import { Sidebar } from './components/Sidebar'
 import { Board } from './components/Board'
 import { useReducer } from 'react'
 import { Value } from 'react-calendar/src/shared/types.js'
+import { isSameDay } from './utils/isSameDay'
 
 const Main = styled.main`
   display: grid;
@@ -213,8 +214,6 @@ const App: React.FC = () => {
   const activeGroup = state.groups.filter((group) => group.active === true)
   const activeBoards = activeGroup[0].boards
   const activeBoard = activeBoards?.filter((board) => board?.active === true)
-  console.log('!!! ACTIVE BOARD !!!')
-  console.log(activeBoard)
 
   const tasksByDate = activeBoard[0].tasks.reduce(
     (acc: Record<string, number>, task) => {
@@ -229,19 +228,6 @@ const App: React.FC = () => {
     {},
   )
 
-  // Wyświetlenie wyniku
-  console.log(tasksByDate)
-
-  // Helper function
-  function isSameDay(date1: Date, date2: Date): boolean {
-    return (
-      date1.getFullYear() === date2.getFullYear() &&
-      date1.getMonth() === date2.getMonth() &&
-      date1.getDate() === date2.getDate()
-    )
-  }
-
-  // Filter tasks based on selected date
   const activeTasks = activeBoard[0]?.tasks.filter((task) => {
     if (!task || !task.createdAt || !state.date) return false
 
@@ -254,24 +240,24 @@ const App: React.FC = () => {
     return <p>Loading...</p>
   }
 
-  console.log('😊 Data: ', state.date)
-
   return (
-    <Main>
-      <Header />
-      <Sidebar
-        groups={state.groups}
-        boards={activeBoards}
-        dispatch={dispatch}
-        tasksByDate={tasksByDate}
-      />
-      <Board
-        activeGroupName={activeGroup[0].groupName}
-        activeBoardName={activeBoard[0].boardName}
-        activeTasks={activeTasks}
-        date={state.date}
-      />
-    </Main>
+    <>
+      <Main>
+        <Header />
+        <Sidebar
+          groups={state.groups}
+          boards={activeBoards}
+          dispatch={dispatch}
+          tasksByDate={tasksByDate}
+        />
+        <Board
+          activeGroupName={activeGroup[0].groupName}
+          activeBoardName={activeBoard[0].boardName}
+          activeTasks={activeTasks}
+          date={state.date}
+        />
+      </Main>
+    </>
   )
 }
 

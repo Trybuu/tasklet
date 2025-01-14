@@ -1,5 +1,7 @@
 import styled from 'styled-components'
 import { Action, Boards } from '../../App'
+import { NewBoardButton } from '../NewBoardButton/NewBoardButton'
+import { SidebarSectionTitle } from '../SidebarSectionTitle'
 
 const SelectBoardWrapper = styled.div``
 
@@ -31,7 +33,9 @@ const SelectBoard: React.FC<SelectBoardProps> = ({ boards, dispatch }) => {
 
   return (
     <SelectBoardWrapper>
-      <h3>Tablice</h3>
+      <SidebarSectionTitle title="Tablice">
+        <NewBoardButton />
+      </SidebarSectionTitle>
       <SelectBoardList>
         {boards.map((board) => (
           <SelectBoardListElement
