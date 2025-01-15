@@ -14,7 +14,7 @@ const StyledSelect = styled.select`
   font-size: 1rem;
   font-weight: 600;
   background-color: ${({ theme }) => theme.colors.white};
-  border: 1px solid ${({ theme }) => theme.colors.lightGray};
+  border: 1px solid ${({ theme }) => theme.colors.gray300};
   border-radius: 0.5rem;
 
   /* Ukrycie domyślnej strzałki */

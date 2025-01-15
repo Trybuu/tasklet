@@ -7,7 +7,7 @@ const StyledButton = styled.button`
   margin-left: auto;
   padding: 0.5rem;
   background-color: ${({ theme }) => theme.colors.white};
-  border: 1px solid ${({ theme }) => theme.colors.lightGray};
+  border: 1px solid ${({ theme }) => theme.colors.gray300};
   border-radius: 0.5rem;
   transition: 0.2s ease-in-out;
   cursor: pointer;

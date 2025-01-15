@@ -11,9 +11,9 @@ const StyledTask = styled.div`
   gap: 0.5rem;
   min-height: 16rem;
   padding: 1rem;
-  border: 1px solid ${({ theme }) => theme.colors.lightGray};
+  border: 1px solid ${({ theme }) => theme.colors.gray300};
   border-radius: 0.5rem;
-  box-shadow: 0 2px 4px ${({ theme }) => theme.colors.lightGray};
+  box-shadow: 0 2px 4px ${({ theme }) => theme.colors.gray300};
 `
 
 const StyledTaskDescription = styled.p`

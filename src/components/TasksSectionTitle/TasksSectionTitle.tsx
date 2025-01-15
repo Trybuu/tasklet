@@ -11,7 +11,7 @@ const StyledTasksSectionTitle = styled.header`
 `
 
 const StyledTasksSectionTitleText = styled.h3`
-  color: ${({ theme }) => theme.colors.gray};
+  color: ${({ theme }) => theme.colors.gray400};
 `
 
 const StyledTasksNumber = styled.p`
@@ -19,7 +19,7 @@ const StyledTasksNumber = styled.p`
   padding: 0.5rem;
   text-align: center;
   color: ${({ theme }) => theme.colors.white};
-  background-color: ${({ theme }) => theme.colors.gray};
+  background-color: ${({ theme }) => theme.colors.gray400};
   border-radius: 0.5rem;
 `
 
