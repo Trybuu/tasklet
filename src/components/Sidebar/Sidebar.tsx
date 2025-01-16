@@ -15,9 +15,9 @@ const StyledSidebar = styled.nav`
 
 interface SidebarProps {
   groups: Groups
-  boards: Boards
+  boards: Boards | null
   dispatch: React.Dispatch<Action>
-  tasksByDate: Record<string, number>
+  tasksByDate: Record<string, number> | null
 }
 
 const Sidebar: React.FC<SidebarProps> = ({

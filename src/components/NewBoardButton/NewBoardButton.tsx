@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useForm } from 'react-hook-form'
 import { Button } from '../Button'
 import { Modal } from '../Modal'
 import { LuPlus } from 'react-icons/lu'
@@ -6,6 +7,7 @@ import { MdDashboardCustomize } from 'react-icons/md'
 
 export const NewBoardButton: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const { register } = useForm()
 
   return (
     <>
@@ -18,7 +20,9 @@ export const NewBoardButton: React.FC = () => {
         icon={<MdDashboardCustomize />}
         title="Dodaj nową tablicę"
       >
-        <h2>Modal Content</h2>
+        <form>
+          <input {...register('icon')} placeholder="Ikona Tablicy" />
+        </form>
       </Modal>
     </>
   )

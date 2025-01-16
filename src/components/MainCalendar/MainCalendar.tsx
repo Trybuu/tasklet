@@ -11,7 +11,7 @@ const StyledCalendar = styled(Calendar)`
 
 interface MainCalendarProps {
   dispatch: React.Dispatch<Action>
-  tasksByDate: Record<string, number>
+  tasksByDate: Record<string, number> | null
 }
 
 export const MainCalendar: React.FC<MainCalendarProps> = ({
@@ -29,6 +29,8 @@ export const MainCalendar: React.FC<MainCalendarProps> = ({
 
   console.log('MAPA ✅')
   console.log(tasksByDate)
+
+  if (!tasksByDate) return
 
   const showTasksCount = ({ date, view }: { date: Date; view: View }) => {
     if (view === 'month') {

@@ -44,7 +44,7 @@ const SelectGroup: React.FC<SelectGroupProps> = ({ groups, dispatch }) => {
   return (
     <>
       <SidebarSectionTitle title="Grupy">
-        <NewGroupButton />
+        <NewGroupButton dispatch={dispatch} />
       </SidebarSectionTitle>
 
       <StyledSelectWrapper>
