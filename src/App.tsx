@@ -33,6 +33,7 @@ export type Action =
   | { type: 'add_group'; payload: Group }
   | { type: 'select_board'; payload: string }
   | { type: 'select_date'; payload: Value }
+  | { type: 'add_board'; payload: Board }
 
 interface Group {
   groupId: string
@@ -206,6 +207,19 @@ function reducer(state: InitialState, action: Action): InitialState {
                   ...board,
                   active: board.boardId === action.payload,
                 })),
+              }
+            : group,
+        ),
+      }
+
+    case 'add_board':
+      return {
+        ...state,
+        groups: state.groups.map((group) =>
+          group.active
+            ? {
+                ...group,
+                boards: [...group.boards, action.payload],
               }
             : group,
         ),

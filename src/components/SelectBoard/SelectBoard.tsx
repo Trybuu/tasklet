@@ -38,7 +38,7 @@ const SelectBoard: React.FC<SelectBoardProps> = ({ boards, dispatch }) => {
   return (
     <SelectBoardWrapper>
       <SidebarSectionTitle title="Tablice">
-        <NewBoardButton />
+        <NewBoardButton dispatch={dispatch} />
       </SidebarSectionTitle>
       <SelectBoardList>
         {boards ? (

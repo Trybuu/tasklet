@@ -29,7 +29,7 @@ const StyledDialogTopSection = styled.div`
 const StyledDialogMiddleSection = styled.div`
   color: ${({ theme }) => theme.colors.gray100};
   background-color: ${({ theme }) => theme.colors.gray200};
-  padding: 2rem;
+  padding: 4rem;
   text-align: center;
   text-transform: lowercase;
 
