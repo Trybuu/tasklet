@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import { v4 as uuidv4 } from 'uuid'
 import { TaskInterface } from '../Board'
 import { TaskPriority } from '../TaskPriority'
 import { useDrag } from 'react-dnd'
@@ -11,8 +10,6 @@ import { MdEditNote } from 'react-icons/md'
 import { useForm } from 'react-hook-form'
 import { Action } from '../../App'
 import { CustomForm } from '../Form'
-import { FaCreativeCommonsPdAlt } from 'react-icons/fa'
-import { ButtonDelete } from '../ButtonDelete/ButtonDelete'
 import { Button } from '../Button'
 
 const StyledTask = styled.div`
@@ -160,7 +157,9 @@ const Task: React.FC<TaskProps> = ({ task, dispatch }) => {
     <>
       <StyledTask
         ref={dragRef}
-        style={{ border: isDragging ? '5px solid pink' : 'none' }}
+        style={{
+          border: isDragging ? '5px solid rgba(0, 123, 255, 0.2)' : 'none',
+        }}
       >
         <StyledThreeDotsButton onClick={handleOnClick}>
           <BsThreeDots />
@@ -189,9 +188,6 @@ const Task: React.FC<TaskProps> = ({ task, dispatch }) => {
               priority: data.taskPriority,
               createdAt: task.createdAt,
             }
-            console.log('🤝 DATA Z EDIT TASK 🤝')
-            console.log(editedTask)
-
             dispatch({ type: 'edit_task', payload: editedTask })
             reset()
             setIsModalOpen(false)

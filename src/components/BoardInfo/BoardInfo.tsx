@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { formatDate } from '../../utils/formatDate'
+import { Value } from 'react-calendar/src/shared/types.js'
 
 const StyledBoardInfo = styled.header`
   padding: 1rem 0;
@@ -12,7 +13,7 @@ const StyledActiveBoardTitle = styled.p`
 interface BoardInfoProps {
   activeGroup: string
   activeBoard: string
-  date: Date
+  date: Date | Value
 }
 
 const BoardInfo: React.FC<BoardInfoProps> = ({

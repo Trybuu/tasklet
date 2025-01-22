@@ -56,7 +56,6 @@ export const NewBoardButton: React.FC<NewBoardButtonProps> = ({ dispatch }) => {
         <CustomForm
           fields={fields}
           onSubmit={handleSubmit((data) => {
-            console.log(data)
             const newBoard = {
               boardId: uuidv4(),
               boardName: data.boardName,
