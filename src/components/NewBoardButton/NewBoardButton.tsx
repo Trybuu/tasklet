@@ -33,7 +33,7 @@ export const NewBoardButton: React.FC<NewBoardButtonProps> = ({ dispatch }) => {
     },
     {
       name: 'boardIcon',
-      type: 'text',
+      type: 'emoji',
       placeholder: 'Ikona tablicy',
       validation: {
         required: true,

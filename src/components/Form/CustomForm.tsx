@@ -1,4 +1,5 @@
-import React from 'react'
+import EmojiPicker, { EmojiClickData } from 'emoji-picker-react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 
 const StyledForm = styled.form`
@@ -64,6 +65,17 @@ export const CustomForm: React.FC<CustomFormProps> = ({
   register,
   submitButtonValue,
 }) => {
+  const [isEmojiPickerActive, setIsEmojiPickerActive] = useState(false)
+  const [emojiValue, setEmojiValue] = useState('')
+
+  const handleOnClick = () => {
+    setIsEmojiPickerActive(true)
+  }
+
+  const handleEmojiPick = (emoji: EmojiClickData) => {
+    setEmojiValue(emoji.emoji)
+  }
+
   return (
     <StyledForm onSubmit={onSubmit}>
       {fields.map((field, index) => {
@@ -80,6 +92,25 @@ export const CustomForm: React.FC<CustomFormProps> = ({
                     <option value={option.value}>{option.textContent}</option>
                   ))}
               </StyledSelect>
+              <StyledErrorMessage>
+                {errors.groupName?.message}
+              </StyledErrorMessage>
+            </React.Fragment>
+          )
+        }
+        if (field.type === 'emoji') {
+          return (
+            <React.Fragment key={index}>
+              <StyledInput
+                {...register(field.name, field.validation)}
+                type={field.type}
+                placeholder={field.placeholder}
+                onClick={handleOnClick}
+                value={emojiValue}
+              />
+              {isEmojiPickerActive && (
+                <EmojiPicker onEmojiClick={handleEmojiPick} />
+              )}
               <StyledErrorMessage>
                 {errors.groupName?.message}
               </StyledErrorMessage>
