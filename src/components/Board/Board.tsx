@@ -3,7 +3,7 @@ import { BoardInfo } from '../BoardInfo'
 import { Tasks } from '../Tasks/Tasks'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
-import { Todos } from '../../App'
+import { Action, Todos } from '../../App'
 
 const StyledBoard = styled.section`
   grid-column: 3/13;
@@ -13,6 +13,7 @@ interface BoardProps {
   activeBoardName: string
   activeTasks: Todos | undefined
   date: Date
+  dispatch: React.Dispatch<Action>
 }
 
 const Board: React.FC<BoardProps> = ({
@@ -20,6 +21,7 @@ const Board: React.FC<BoardProps> = ({
   activeBoardName,
   activeTasks,
   date,
+  dispatch,
 }) => {
   return (
     <StyledBoard>
@@ -29,7 +31,7 @@ const Board: React.FC<BoardProps> = ({
         date={date}
       />
       <DndProvider backend={HTML5Backend}>
-        <Tasks tasks={activeTasks} />
+        <Tasks tasks={activeTasks} dispatch={dispatch} />
       </DndProvider>
     </StyledBoard>
   )

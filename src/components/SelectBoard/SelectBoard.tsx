@@ -21,7 +21,7 @@ const SelectBoardListElement = styled.li<{ $active: boolean }>`
 `
 
 interface SelectBoardProps {
-  boards: Boards
+  boards: Boards | null
   dispatch: React.Dispatch<Action>
 }
 
@@ -31,21 +31,29 @@ const SelectBoard: React.FC<SelectBoardProps> = ({ boards, dispatch }) => {
     dispatch({ type: 'select_board', payload: boardId })
   }
 
+  if (!boards) {
+    return <p>Brak Tablic</p>
+  }
+
   return (
     <SelectBoardWrapper>
       <SidebarSectionTitle title="Tablice">
-        <NewBoardButton />
+        <NewBoardButton dispatch={dispatch} />
       </SidebarSectionTitle>
       <SelectBoardList>
-        {boards.map((board) => (
-          <SelectBoardListElement
-            key={board.boardId}
-            $active={board.active}
-            onClick={() => handleOnClick(board.boardId)}
-          >
-            {board.boardIcon} {board.boardName}
-          </SelectBoardListElement>
-        ))}
+        {boards ? (
+          boards.map((board) => (
+            <SelectBoardListElement
+              key={board.boardId}
+              $active={board.active}
+              onClick={() => handleOnClick(board.boardId)}
+            >
+              {board.boardIcon} {board.boardName}
+            </SelectBoardListElement>
+          ))
+        ) : (
+          <p>Brak Tablic</p>
+        )}
       </SelectBoardList>
     </SelectBoardWrapper>
   )

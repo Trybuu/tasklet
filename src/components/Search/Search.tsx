@@ -11,7 +11,7 @@ const SearchInput = styled.input<{ $isExpanded: boolean }>`
   width: 100%;
   padding: 1rem;
 
-  border: 1px solid ${({ theme }) => theme.colors.lightGray};
+  border: 1px solid ${({ theme }) => theme.colors.gray300};
   border-right: none;
   border-radius: 0.5rem 0 0 0.5rem;
   outline: none;
@@ -26,9 +26,9 @@ const SearchInput = styled.input<{ $isExpanded: boolean }>`
 const SearchButton = styled.button<{ $isExpanded: boolean }>`
   padding: 1rem;
   font-size: 1rem;
-  color: ${({ theme }) => theme.colors.gray};
+  color: ${({ theme }) => theme.colors.gray400};
   background: ${({ theme }) => theme.colors.white};
-  border: 1px solid ${({ theme }) => theme.colors.lightGray};
+  border: 1px solid ${({ theme }) => theme.colors.gray300};
   border-radius: ${({ $isExpanded }) =>
     $isExpanded ? '0 .5rem .5rem 0' : '.5rem'};
   cursor: pointer;

@@ -5,6 +5,7 @@ import { Board } from './components/Board'
 import { useReducer } from 'react'
 import { Value } from 'react-calendar/src/shared/types.js'
 import { isSameDay } from './utils/isSameDay'
+import { FaSadTear } from 'react-icons/fa'
 
 const Main = styled.main`
   display: grid;
@@ -15,11 +16,28 @@ const Main = styled.main`
   width: 100vw;
 `
 
+const NothingToDisplay = styled.div`
+  grid-column: 3/13;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 2rem;
+  color: ${({ theme }) => theme.colors.gray300};
+  text-transform: lowercase;
+`
+
 export type Action =
   | { type: 'select_group'; payload: string }
   | { type: 'add_group'; payload: Group }
   | { type: 'select_board'; payload: string }
   | { type: 'select_date'; payload: Value }
+  | { type: 'add_board'; payload: Board }
+  | { type: 'add_task'; payload: Todo }
+  | { type: 'edit_task'; payload: Todo }
+  | { type: 'delete_task'; payload: string }
+
 interface Group {
   groupId: string
   groupName: string
@@ -107,7 +125,7 @@ const initialState: InitialState = {
             },
             {
               id: 'khsdv87q35464',
-              title: 'Skoantaktować się z Panem od kuchni na wymiar',
+              title: 'Skontaktować się z Panem od kuchni na wymiar',
               description: 'Kacper Kuchenny - 783 235 223',
               icon: '🧑‍🍳',
               status: 'in-progress',
@@ -164,45 +182,138 @@ const initialState: InitialState = {
   ],
 }
 
-function reducer(state: InitialState, action: Action) {
+function reducer(state: InitialState, action: Action): InitialState {
   switch (action.type) {
     case 'select_group':
       return {
         ...state,
-        groups: state.groups.map((group) =>
-          group.groupId === action.payload
-            ? { ...group, active: true }
-            : { ...group, active: false },
-        ),
+        groups: state.groups.map((group) => ({
+          ...group,
+          active: group.groupId === action.payload,
+        })),
       }
+
     case 'add_group':
       return {
         ...state,
-        ...action.payload,
+        groups: [...state.groups, action.payload],
       }
+
     case 'select_board':
       return {
         ...state,
         groups: state.groups.map((group) =>
-          group.active === true
+          group.active
+            ? {
+                ...group,
+                boards: group.boards.map((board) => ({
+                  ...board,
+                  active: board.boardId === action.payload,
+                })),
+              }
+            : group,
+        ),
+      }
+
+    case 'add_board':
+      return {
+        ...state,
+        groups: state.groups.map((group) =>
+          group.active
+            ? {
+                ...group,
+                boards: [...group.boards, action.payload],
+              }
+            : group,
+        ),
+      }
+
+    case 'select_date':
+      return {
+        ...state,
+        date: action.payload,
+      }
+
+    case 'add_task':
+      return {
+        ...state,
+        groups: state.groups.map((group) =>
+          group.active
             ? {
                 ...group,
                 boards: group.boards.map((board) =>
-                  board.boardId === action.payload
-                    ? { ...board, active: true }
-                    : { ...board, active: false },
+                  board.active
+                    ? {
+                        ...board,
+                        tasks: [
+                          ...board.tasks,
+                          {
+                            ...action.payload,
+                            createdAt: state.date,
+                          },
+                        ],
+                      }
+                    : board,
                 ),
               }
             : group,
         ),
       }
-    case 'select_date':
-      console.log('ZMIANA DATY')
-      console.log(state.date)
+
+    case 'edit_task':
       return {
         ...state,
-        date: action.payload,
+        groups: state.groups.map((group) =>
+          group.active
+            ? {
+                ...group,
+                boards: group.boards.map((board) =>
+                  board.active
+                    ? {
+                        ...board,
+                        tasks: board.tasks.map((task) =>
+                          task.id === action.payload.id
+                            ? {
+                                ...task,
+                                title: action.payload.title,
+                                description: action.payload.description,
+                                icon: action.payload.icon,
+                                status: action.payload.status,
+                                priority: action.payload.priority,
+                                createdAt: action.payload.createdAt,
+                              }
+                            : { ...task },
+                        ),
+                      }
+                    : board,
+                ),
+              }
+            : group,
+        ),
       }
+
+    case 'delete_task':
+      return {
+        ...state,
+        groups: state.groups.map((group) =>
+          group.active
+            ? {
+                ...group,
+                boards: group.boards.map((board) =>
+                  board.active
+                    ? {
+                        ...board,
+                        tasks: board.tasks.filter(
+                          (task) => task.id !== action.payload,
+                        ),
+                      }
+                    : board,
+                ),
+              }
+            : group,
+        ),
+      }
+
     default:
       return state
   }
@@ -211,53 +322,51 @@ function reducer(state: InitialState, action: Action) {
 const App: React.FC = () => {
   const [state, dispatch] = useReducer(reducer, initialState)
 
-  const activeGroup = state.groups.filter((group) => group.active === true)
-  const activeBoards = activeGroup[0].boards
-  const activeBoard = activeBoards?.filter((board) => board?.active === true)
+  const activeGroup = state.groups.find((group) => group.active)
+  const activeBoard = activeGroup?.boards.find((board) => board.active)
 
-  const tasksByDate = activeBoard[0].tasks.reduce(
+  const tasksByDate = activeBoard?.tasks.reduce(
     (acc: Record<string, number>, task) => {
-      if (!task || !(task.createdAt instanceof Date)) return acc
-
-      const date = task.createdAt.toISOString().split('T')[0]
-
-      acc[date] = (acc[date] || 0) + 1
-
+      if (task.createdAt instanceof Date) {
+        const date = task.createdAt.toISOString().split('T')[0]
+        acc[date] = (acc[date] || 0) + 1
+      }
       return acc
     },
     {},
   )
 
-  const activeTasks = activeBoard[0]?.tasks.filter((task) => {
-    if (!task || !task.createdAt || !state.date) return false
-
-    if (task.createdAt instanceof Date) {
-      return isSameDay(new Date(task.createdAt), new Date(state.date as Date))
-    }
+  const activeTasks = activeBoard?.tasks.filter((task) => {
+    return (
+      task.createdAt instanceof Date &&
+      isSameDay(new Date(task.createdAt), new Date(state.date as Date))
+    )
   })
 
-  if (!activeGroup || !activeBoard) {
-    return <p>Loading...</p>
-  }
-
   return (
-    <>
-      <Main>
-        <Header />
-        <Sidebar
-          groups={state.groups}
-          boards={activeBoards}
-          dispatch={dispatch}
-          tasksByDate={tasksByDate}
-        />
+    <Main>
+      <Header />
+      <Sidebar
+        groups={state.groups}
+        boards={activeGroup?.boards || []}
+        dispatch={dispatch}
+        tasksByDate={tasksByDate || {}}
+      />
+      {activeGroup && activeBoard ? (
         <Board
-          activeGroupName={activeGroup[0].groupName}
-          activeBoardName={activeBoard[0].boardName}
-          activeTasks={activeTasks}
+          activeGroupName={activeGroup.groupName}
+          activeBoardName={activeBoard.boardName}
+          activeTasks={activeTasks || []}
           date={state.date}
+          dispatch={dispatch}
         />
-      </Main>
-    </>
+      ) : (
+        <NothingToDisplay>
+          <FaSadTear />
+          <p>Brak aktywnej grupy lub tablicy</p>
+        </NothingToDisplay>
+      )}
+    </Main>
   )
 }
 
