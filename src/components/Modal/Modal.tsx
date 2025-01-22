@@ -17,7 +17,6 @@ const StyledDialog = styled.dialog`
   border-radius: 0.5rem;
 
   @media screen and (min-width: 1024px) {
-    height: 50%;
     width: 50%;
   }
 `
@@ -35,10 +34,14 @@ const StyledDialogMiddleSection = styled.div`
 
   svg {
     color: ${({ theme }) => theme.colors.gray100};
+    font-size: 1.5rem;
   }
 `
 
 const StyledDialogBottomSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
   padding: 1rem;
 `
 

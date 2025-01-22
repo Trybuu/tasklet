@@ -1,3 +1,4 @@
+import React from 'react'
 import styled from 'styled-components'
 
 const StyledForm = styled.form`
@@ -7,6 +8,14 @@ const StyledForm = styled.form`
 `
 
 const StyledInput = styled.input`
+  padding: 1rem;
+
+  border: 1px solid ${({ theme }) => theme.colors.gray300};
+  border-radius: 0.5rem;
+  outline: none;
+`
+
+const StyledSelect = styled.select`
   padding: 1rem;
 
   border: 1px solid ${({ theme }) => theme.colors.gray300};
@@ -28,9 +37,14 @@ const StyledErrorMessage = styled.p`
   color: #dd1d1d;
 `
 
+export interface FormFieldSelectOption {
+  value: string
+  textContent: string
+}
 export interface FormField {
   name: string
   type: string
+  options?: FormFieldSelectOption[]
   placeholder?: string
   validation?: object
 }
@@ -52,16 +66,40 @@ export const CustomForm: React.FC<CustomFormProps> = ({
 }) => {
   return (
     <StyledForm onSubmit={onSubmit}>
-      {fields.map((field) => (
-        <>
-          <StyledInput
-            {...register(field.name, field.validation)}
-            type={field.type}
-            placeholder={field.placeholder}
-          />
-          <StyledErrorMessage>{errors.groupName?.message}</StyledErrorMessage>
-        </>
-      ))}
+      {fields.map((field, index) => {
+        if (field.type === 'select') {
+          return (
+            <React.Fragment key={index}>
+              <StyledSelect
+                {...register(field.name, field.validation)}
+                type={field.type}
+                placeholder={field.placeholder}
+              >
+                {field.options &&
+                  field.options.map((option) => (
+                    <option value={option.value}>{option.textContent}</option>
+                  ))}
+              </StyledSelect>
+              <StyledErrorMessage>
+                {errors.groupName?.message}
+              </StyledErrorMessage>
+            </React.Fragment>
+          )
+        } else {
+          return (
+            <React.Fragment key={index}>
+              <StyledInput
+                {...register(field.name, field.validation)}
+                type={field.type}
+                placeholder={field.placeholder}
+              />
+              <StyledErrorMessage>
+                {errors.groupName?.message}
+              </StyledErrorMessage>
+            </React.Fragment>
+          )
+        }
+      })}
 
       <StyledInputButton type="submit" value={submitButtonValue} />
     </StyledForm>

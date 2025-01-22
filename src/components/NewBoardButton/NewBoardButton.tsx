@@ -17,6 +17,7 @@ export const NewBoardButton: React.FC<NewBoardButtonProps> = ({ dispatch }) => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm()
 
@@ -24,7 +25,7 @@ export const NewBoardButton: React.FC<NewBoardButtonProps> = ({ dispatch }) => {
     {
       name: 'boardName',
       type: 'text',
-      placeholder: 'Nazwa grupy',
+      placeholder: 'Nazwa tablicy',
       validation: {
         required: true,
         minLength: { value: 4, message: 'Nazwa tablicy jest zbyt krótka' },
@@ -65,6 +66,8 @@ export const NewBoardButton: React.FC<NewBoardButtonProps> = ({ dispatch }) => {
             }
 
             dispatch({ type: 'add_board', payload: newBoard })
+            reset()
+            setIsModalOpen(false)
           })}
           errors={errors}
           register={register}

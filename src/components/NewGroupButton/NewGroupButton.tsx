@@ -17,6 +17,7 @@ export const NewGroupButton: React.FC<NewGroupButtonProps> = ({ dispatch }) => {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm({
     defaultValues: {
       groupName: '',
@@ -71,6 +72,8 @@ export const NewGroupButton: React.FC<NewGroupButtonProps> = ({ dispatch }) => {
             }
 
             dispatch({ type: 'add_group', payload: newBoard })
+            reset()
+            setIsModalOpen(false)
           })}
           errors={errors}
           register={register}

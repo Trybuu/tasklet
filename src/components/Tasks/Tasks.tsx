@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { TaskSection } from '../TaskSection/TaskSection'
-import { Todos } from '../../App'
+import { Action, Todos } from '../../App'
 
 const StyledTasks = styled.section`
   grid-row: 4/13;
@@ -36,9 +36,10 @@ const sections: SectionInterface[] = [
 
 interface TasksProps {
   tasks: Todos | undefined
+  dispatch: React.Dispatch<Action>
 }
 
-const Tasks: React.FC<TasksProps> = ({ tasks }) => {
+const Tasks: React.FC<TasksProps> = ({ tasks, dispatch }) => {
   console.log('TASKS z Task')
   console.log(tasks)
 
@@ -50,12 +51,16 @@ const Tasks: React.FC<TasksProps> = ({ tasks }) => {
     return (
       <StyledTasks>
         {sections.map((section) => (
-          <TaskSection
-            key={section.id}
-            id={section.id}
-            title={section.title}
-            tasks={tasks.filter((task) => task?.status === section.status)}
-          />
+          <>
+            <TaskSection
+              key={section.id}
+              id={section.id}
+              title={section.title}
+              status={section.status}
+              tasks={tasks.filter((task) => task?.status === section.status)}
+              dispatch={dispatch}
+            />
+          </>
         ))}
       </StyledTasks>
     )

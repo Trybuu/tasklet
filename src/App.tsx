@@ -34,6 +34,9 @@ export type Action =
   | { type: 'select_board'; payload: string }
   | { type: 'select_date'; payload: Value }
   | { type: 'add_board'; payload: Board }
+  | { type: 'add_task'; payload: Todo }
+  | { type: 'edit_task'; payload: Todo }
+  | { type: 'delete_task'; payload: string }
 
 interface Group {
   groupId: string
@@ -231,6 +234,86 @@ function reducer(state: InitialState, action: Action): InitialState {
         date: action.payload,
       }
 
+    case 'add_task':
+      return {
+        ...state,
+        groups: state.groups.map((group) =>
+          group.active
+            ? {
+                ...group,
+                boards: group.boards.map((board) =>
+                  board.active
+                    ? {
+                        ...board,
+                        tasks: [
+                          ...board.tasks,
+                          {
+                            ...action.payload,
+                            createdAt: state.date,
+                          },
+                        ],
+                      }
+                    : board,
+                ),
+              }
+            : group,
+        ),
+      }
+
+    case 'edit_task':
+      return {
+        ...state,
+        groups: state.groups.map((group) =>
+          group.active
+            ? {
+                ...group,
+                boards: group.boards.map((board) =>
+                  board.active
+                    ? {
+                        ...board,
+                        tasks: board.tasks.map((task) =>
+                          task.id === action.payload.id
+                            ? {
+                                ...task,
+                                title: action.payload.title,
+                                description: action.payload.description,
+                                icon: action.payload.icon,
+                                status: action.payload.status,
+                                priority: action.payload.priority,
+                                createdAt: action.payload.createdAt,
+                              }
+                            : { ...task },
+                        ),
+                      }
+                    : board,
+                ),
+              }
+            : group,
+        ),
+      }
+
+    case 'delete_task':
+      return {
+        ...state,
+        groups: state.groups.map((group) =>
+          group.active
+            ? {
+                ...group,
+                boards: group.boards.map((board) =>
+                  board.active
+                    ? {
+                        ...board,
+                        tasks: board.tasks.filter(
+                          (task) => task.id !== action.payload,
+                        ),
+                      }
+                    : board,
+                ),
+              }
+            : group,
+        ),
+      }
+
     default:
       return state
   }
@@ -275,6 +358,7 @@ const App: React.FC = () => {
           activeBoardName={activeBoard.boardName}
           activeTasks={activeTasks || []}
           date={state.date}
+          dispatch={dispatch}
         />
       ) : (
         <NothingToDisplay>

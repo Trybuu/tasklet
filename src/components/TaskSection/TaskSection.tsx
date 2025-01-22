@@ -3,7 +3,8 @@ import { TasksSectionTitle } from '../TasksSectionTitle'
 import { Task } from '../Task/Task'
 import { useDrop } from 'react-dnd'
 import { ItemTypes } from '../../dnd/Constants'
-import { Todos } from '../../App'
+import { Action, Todos } from '../../App'
+import { TaskNew } from '../TaskNew'
 
 const StyledTasksSectionWrapper = styled.section`
   display: flex;
@@ -19,10 +20,18 @@ const StyledTasksSectionWrapper = styled.section`
 interface TaskSectionProps {
   id: string
   title: string
+  status: string
   tasks: Todos
+  dispatch: React.Dispatch<Action>
 }
 
-const TaskSection: React.FC<TaskSectionProps> = ({ id, title, tasks }) => {
+const TaskSection: React.FC<TaskSectionProps> = ({
+  id,
+  title,
+  status,
+  tasks,
+  dispatch,
+}) => {
   const [{ isOver }, dropRef] = useDrop(() => ({
     accept: ItemTypes.CARD,
     drop: (item) => addTaskToSection(item.id),
@@ -40,8 +49,9 @@ const TaskSection: React.FC<TaskSectionProps> = ({ id, title, tasks }) => {
     <StyledTasksSectionWrapper key={id} id={id} ref={dropRef}>
       <TasksSectionTitle title={title} tasksNumber={tasks.length} />
       {tasks.map((task) => (
-        <Task key={task.id} task={task} />
+        <Task key={task.id} task={task} dispatch={dispatch} />
       ))}
+      <TaskNew dispatch={dispatch} status={status} />
     </StyledTasksSectionWrapper>
   )
 }
