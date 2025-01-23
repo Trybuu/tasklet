@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import { Action, Boards } from '../../App'
 import { NewBoardButton } from '../NewBoardButton/NewBoardButton'
 import { SidebarSectionTitle } from '../SidebarSectionTitle'
+import { EditBoardsButton } from '../EditBoardsButton'
 
 const SelectBoardWrapper = styled.div``
 
@@ -39,6 +40,7 @@ const SelectBoard: React.FC<SelectBoardProps> = ({ boards, dispatch }) => {
     <SelectBoardWrapper>
       <SidebarSectionTitle title="Tablice">
         <NewBoardButton dispatch={dispatch} />
+        <EditBoardsButton dispatch={dispatch} boards={boards} />
       </SidebarSectionTitle>
       <SelectBoardList>
         {boards ? (

@@ -38,6 +38,10 @@ export type Action =
   | { type: 'edit_task'; payload: Todo }
   | { type: 'delete_task'; payload: string }
   | { type: 'move_task'; payload: { id: string; status: string } }
+  | { type: 'delete_group'; payload: string }
+  | { type: 'delete_board'; payload: string }
+  | { type: 'edit_group'; payload: Group }
+  | { type: 'edit_board'; payload: Board }
 
 interface Group {
   groupId: string
@@ -335,6 +339,29 @@ function reducer(state: InitialState, action: Action): InitialState {
                         ),
                       }
                     : board,
+                ),
+              }
+            : group,
+        ),
+      }
+
+    case 'delete_group':
+      return {
+        ...state,
+        groups: state.groups.filter(
+          (group) => group.groupId !== action.payload,
+        ),
+      }
+
+    case 'delete_board':
+      return {
+        ...state,
+        groups: state.groups.map((group) =>
+          group.active
+            ? {
+                ...group,
+                boards: group.boards.filter(
+                  (board) => board.boardId !== action.payload,
                 ),
               }
             : group,

@@ -7,7 +7,6 @@ import { useForm } from 'react-hook-form'
 import { v4 as uuidv4 } from 'uuid'
 import { Action } from '../../App'
 import { CustomForm } from '../Form'
-import EmojiPicker from 'emoji-picker-react'
 interface NewGroupButtonProps {
   dispatch: React.Dispatch<Action>
 }

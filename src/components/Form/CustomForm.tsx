@@ -128,7 +128,10 @@ export const CustomForm: React.FC<CustomFormProps> = ({
 
         return (
           <React.Fragment key={index}>
-            <StyledInput {...register(field.name, field.validation)} />
+            <StyledInput
+              {...register(field.name, field.validation)}
+              placeholder={field.placeholder}
+            />
             <StyledErrorMessage>
               {typeof errors[field.name]?.message === 'string' &&
                 errors[field.name]?.message}
