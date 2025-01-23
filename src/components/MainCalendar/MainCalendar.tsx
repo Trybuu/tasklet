@@ -21,14 +21,9 @@ export const MainCalendar: React.FC<MainCalendarProps> = ({
   const [value, setValue] = useState<Value>(new Date())
 
   const handleOnChange = (newValue: Value) => {
-    console.log('CHANGE DATE ')
-    console.log(newValue)
     setValue(newValue)
     dispatch({ type: 'select_date', payload: newValue })
   }
-
-  console.log('MAPA ✅')
-  console.log(tasksByDate)
 
   if (!tasksByDate) return
 

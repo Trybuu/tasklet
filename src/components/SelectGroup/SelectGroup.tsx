@@ -3,6 +3,7 @@ import { IoIosArrowDown } from 'react-icons/io'
 import { Action, Groups } from '../../App'
 import { NewGroupButton } from '../NewGroupButton'
 import { SidebarSectionTitle } from '../SidebarSectionTitle'
+import { EditGroupsButton } from '../EditGroupsButton'
 
 const StyledSelectWrapper = styled.div`
   position: relative;
@@ -45,6 +46,7 @@ const SelectGroup: React.FC<SelectGroupProps> = ({ groups, dispatch }) => {
     <>
       <SidebarSectionTitle title="Grupy">
         <NewGroupButton dispatch={dispatch} />
+        <EditGroupsButton dispatch={dispatch} groups={groups} />
       </SidebarSectionTitle>
 
       <StyledSelectWrapper>

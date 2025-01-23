@@ -40,9 +40,6 @@ interface TasksProps {
 }
 
 const Tasks: React.FC<TasksProps> = ({ tasks, dispatch }) => {
-  console.log('TASKS z Task')
-  console.log(tasks)
-
   if (!tasks) {
     return <p>Brak zadań</p>
   }
@@ -51,16 +48,14 @@ const Tasks: React.FC<TasksProps> = ({ tasks, dispatch }) => {
     return (
       <StyledTasks>
         {sections.map((section) => (
-          <>
-            <TaskSection
-              key={section.id}
-              id={section.id}
-              title={section.title}
-              status={section.status}
-              tasks={tasks.filter((task) => task?.status === section.status)}
-              dispatch={dispatch}
-            />
-          </>
+          <TaskSection
+            key={section.id}
+            id={section.id}
+            title={section.title}
+            status={section.status}
+            tasks={tasks.filter((task) => task?.status === section.status)}
+            dispatch={dispatch}
+          />
         ))}
       </StyledTasks>
     )

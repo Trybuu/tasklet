@@ -37,7 +37,7 @@ const fields = [
   },
   {
     name: 'taskIcon',
-    type: 'text',
+    type: 'emoji',
     placeholder: 'Ikona zadania',
     validation: {
       required: true,

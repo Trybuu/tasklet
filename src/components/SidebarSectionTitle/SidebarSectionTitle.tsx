@@ -3,8 +3,14 @@ import React from 'react'
 
 const StyledSidebarSectionTitle = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
+`
+
+const StyledButtonsContainer = styled.div`
+  display: flex;
+  gap: 0.5rem;
+  margin-left: auto;
 `
 
 interface SidebarSectionTitleProps {
@@ -19,7 +25,7 @@ export const SidebarSectionTitle: React.FC<SidebarSectionTitleProps> = ({
   return (
     <StyledSidebarSectionTitle>
       <h3>{title}</h3>
-      {children}
+      <StyledButtonsContainer>{children}</StyledButtonsContainer>
     </StyledSidebarSectionTitle>
   )
 }

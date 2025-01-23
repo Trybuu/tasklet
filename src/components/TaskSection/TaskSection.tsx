@@ -25,6 +25,10 @@ interface TaskSectionProps {
   dispatch: React.Dispatch<Action>
 }
 
+type DraggedItem = {
+  id: string
+}
+
 const TaskSection: React.FC<TaskSectionProps> = ({
   id,
   title,
@@ -32,17 +36,16 @@ const TaskSection: React.FC<TaskSectionProps> = ({
   tasks,
   dispatch,
 }) => {
-  const [{ isOver }, dropRef] = useDrop(() => ({
+  const [, dropRef] = useDrop(() => ({
     accept: ItemTypes.CARD,
-    drop: (item) => addTaskToSection(item.id),
+    drop: (item: DraggedItem) => addTaskToSection(item.id),
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),
     }),
   }))
 
   const addTaskToSection = (id: string) => {
-    const tasksList = tasks.filter((task) => task.id === id)
-    console.log(tasksList)
+    dispatch({ type: 'move_task', payload: { id: id, status: status } })
   }
 
   return (

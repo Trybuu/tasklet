@@ -37,7 +37,7 @@ export const NewGroupButton: React.FC<NewGroupButtonProps> = ({ dispatch }) => {
     },
     {
       name: 'groupIcon',
-      type: 'text',
+      type: 'emoji',
       placeholder: 'Ikona grupy',
       validation: {
         required: 'Konieczne jest określenie ikony grupy',
