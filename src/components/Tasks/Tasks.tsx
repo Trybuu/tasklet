@@ -3,7 +3,7 @@ import { TaskSection } from '../TaskSection/TaskSection'
 import { Action, Todos } from '../../App'
 
 const StyledTasks = styled.section`
-  grid-row: 4/13;
+  /* grid-row: 4/13; */
   display: flex;
   gap: 1rem;
   justify-content: flex-start;

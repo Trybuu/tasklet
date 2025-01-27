@@ -9,11 +9,20 @@ import { FaSadTear } from 'react-icons/fa'
 
 const Main = styled.main`
   display: grid;
-  grid-template-columns: repeat(12, 1fr);
+  grid-template-columns: 1fr;
   grid-template-rows: auto 1fr;
-  gap: 0 1rem;
   height: 100vh;
-  width: 100vw;
+  /* width: 100vw; */
+
+  @media screen and (min-width: 768px) {
+    grid-template-columns: repeat(6, 1fr);
+  }
+
+  @media screen and (min-width: 1024px) {
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: auto 1fr;
+    gap: 0 1rem;
+  }
 `
 
 const NothingToDisplay = styled.div`

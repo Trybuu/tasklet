@@ -9,6 +9,19 @@ export const GlobalStyles = createGlobalStyle`
 
     html{
         font-family: 'Inter', sans-serif;
+        font-size: 12px;
+
+        @media screen and (min-width: 1024px){
+            font-size: 14px;
+        }
+
+        @media screen and (min-width: 1440px){
+            font-size: 16px;
+        }
+    }
+
+    body{
+        overflow-x: hidden;
     }
 
     input, select{

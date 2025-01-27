@@ -10,6 +10,7 @@ const SelectBoardList = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  height: 100%;
   padding: 1rem 0;
 `
 

@@ -7,7 +7,20 @@ import { Action, Todos } from '../../App'
 import { Value } from 'react-calendar/src/shared/types.js'
 
 const StyledBoard = styled.section`
-  grid-column: 3/13;
+  grid-column: 1/13;
+  padding: 1rem;
+
+  @media screen and (min-width: 768px) {
+    grid-column: 2/7;
+    padding: 0 1rem;
+    padding-right: 1rem;
+  }
+
+  @media screen and (min-width: 1024px) {
+    grid-column: 4/13;
+    padding: 0;
+    padding-right: 1rem;
+  }
 `
 interface BoardProps {
   activeGroupName: string
