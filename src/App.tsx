@@ -12,7 +12,6 @@ const Main = styled.main`
   grid-template-columns: 1fr;
   grid-template-rows: auto 1fr;
   height: 100vh;
-  /* width: 100vw; */
 
   @media screen and (min-width: 768px) {
     grid-template-columns: repeat(6, 1fr);
@@ -407,29 +406,31 @@ const App: React.FC = () => {
   })
 
   return (
-    <Main>
-      <Header />
-      <Sidebar
-        groups={state.groups}
-        boards={activeGroup?.boards || []}
-        dispatch={dispatch}
-        tasksByDate={tasksByDate || {}}
-      />
-      {activeGroup && activeBoard ? (
-        <Board
-          activeGroupName={activeGroup.groupName}
-          activeBoardName={activeBoard.boardName}
-          activeTasks={activeTasks || []}
-          date={state.date}
+    <>
+      <Main>
+        <Header />
+        <Sidebar
+          groups={state.groups}
+          boards={activeGroup?.boards || []}
           dispatch={dispatch}
+          tasksByDate={tasksByDate || {}}
         />
-      ) : (
-        <NothingToDisplay>
-          <FaSadTear />
-          <p>Brak aktywnej grupy lub tablicy</p>
-        </NothingToDisplay>
-      )}
-    </Main>
+        {activeGroup && activeBoard ? (
+          <Board
+            activeGroupName={activeGroup.groupName}
+            activeBoardName={activeBoard.boardName}
+            activeTasks={activeTasks || []}
+            date={state.date}
+            dispatch={dispatch}
+          />
+        ) : (
+          <NothingToDisplay>
+            <FaSadTear />
+            <p>Brak aktywnej grupy lub tablicy</p>
+          </NothingToDisplay>
+        )}
+      </Main>
+    </>
   )
 }
 

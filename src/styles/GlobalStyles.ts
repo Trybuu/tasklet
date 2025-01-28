@@ -21,7 +21,7 @@ export const GlobalStyles = createGlobalStyle`
     }
 
     body{
-        overflow-x: hidden;
+        /* overflow-x: hidden; */
     }
 
     input, select{
