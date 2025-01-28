@@ -3,7 +3,7 @@ import { Button } from '../Button'
 import { Modal } from '../Modal'
 import { LuPlus } from 'react-icons/lu'
 import { FaLayerGroup } from 'react-icons/fa'
-import { useForm } from 'react-hook-form'
+import { FormProvider, useForm } from 'react-hook-form'
 import { v4 as uuidv4 } from 'uuid'
 import { Action } from '../../App'
 import { CustomForm } from '../Form'
@@ -13,17 +13,7 @@ interface NewGroupButtonProps {
 
 export const NewGroupButton: React.FC<NewGroupButtonProps> = ({ dispatch }) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm({
-    defaultValues: {
-      groupName: '',
-      groupIcon: '',
-    },
-  })
+  const methods = useForm()
 
   const fields = [
     {
@@ -36,7 +26,7 @@ export const NewGroupButton: React.FC<NewGroupButtonProps> = ({ dispatch }) => {
       },
     },
     {
-      name: 'groupIcon',
+      name: 'icon',
       type: 'emoji',
       placeholder: 'Ikona grupy',
       validation: {
@@ -44,9 +34,6 @@ export const NewGroupButton: React.FC<NewGroupButtonProps> = ({ dispatch }) => {
       },
     },
   ]
-
-  console.log(errors)
-
   return (
     <>
       <Button onClick={() => setIsModalOpen(true)}>
@@ -58,27 +45,27 @@ export const NewGroupButton: React.FC<NewGroupButtonProps> = ({ dispatch }) => {
         icon={<FaLayerGroup />}
         title="Dodaj nową grupę"
       >
-        <CustomForm
-          fields={fields}
-          onSubmit={handleSubmit((data) => {
-            console.log(data)
+        <FormProvider {...methods}>
+          <CustomForm
+            fields={fields}
+            onSubmit={methods.handleSubmit((data) => {
+              console.log(data)
 
-            const newBoard = {
-              groupId: uuidv4(),
-              groupName: data.groupName,
-              grupIcon: data.groupIcon,
-              active: false,
-              boards: [],
-            }
+              const newBoard = {
+                groupId: uuidv4(),
+                groupName: data.groupName,
+                grupIcon: data.icon,
+                active: false,
+                boards: [],
+              }
 
-            dispatch({ type: 'add_group', payload: newBoard })
-            reset()
-            setIsModalOpen(false)
-          })}
-          errors={errors}
-          register={register}
-          submitButtonValue="Utwórz nową grupę"
-        />
+              dispatch({ type: 'add_group', payload: newBoard })
+              methods.reset()
+              setIsModalOpen(false)
+            })}
+            submitButtonValue="Utwórz nową grupę"
+          />
+        </FormProvider>
       </Modal>
     </>
   )

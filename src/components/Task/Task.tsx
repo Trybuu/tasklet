@@ -7,7 +7,7 @@ import { BsThreeDots } from 'react-icons/bs'
 import { Modal } from '../Modal'
 import { useState } from 'react'
 import { MdEditNote } from 'react-icons/md'
-import { useForm } from 'react-hook-form'
+import { FormProvider, useForm } from 'react-hook-form'
 import { Action } from '../../App'
 import { CustomForm } from '../Form'
 import { Button } from '../Button'
@@ -124,12 +124,7 @@ interface TaskProps {
 
 const Task: React.FC<TaskProps> = ({ task, dispatch }) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm()
+  const methods = useForm()
   const [{ isDragging }, dragRef] = useDrag(
     () => ({
       type: ItemTypes.CARD,
@@ -142,7 +137,7 @@ const Task: React.FC<TaskProps> = ({ task, dispatch }) => {
   )
 
   const handleOnClick = () => {
-    reset({
+    methods.reset({
       taskName: task.title,
       taskDescription: task.description,
       taskIcon: task.icon,
@@ -176,26 +171,26 @@ const Task: React.FC<TaskProps> = ({ task, dispatch }) => {
         title="Edytuj zadanie"
         icon={<MdEditNote />}
       >
-        <CustomForm
-          fields={fields}
-          onSubmit={handleSubmit((data) => {
-            const editedTask = {
-              id: task.id,
-              title: data.taskName,
-              description: data.taskDescription,
-              icon: data.taskIcon,
-              status: data.taskStatus,
-              priority: data.taskPriority,
-              createdAt: task.createdAt,
-            }
-            dispatch({ type: 'edit_task', payload: editedTask })
-            reset()
-            setIsModalOpen(false)
-          })}
-          errors={errors}
-          register={register}
-          submitButtonValue="Edytuj zadanie"
-        />
+        <FormProvider {...methods}>
+          <CustomForm
+            fields={fields}
+            onSubmit={methods.handleSubmit((data) => {
+              const editedTask = {
+                id: task.id,
+                title: data.taskName,
+                description: data.taskDescription,
+                icon: data.icon,
+                status: data.taskStatus,
+                priority: data.taskPriority,
+                createdAt: task.createdAt,
+              }
+              dispatch({ type: 'edit_task', payload: editedTask })
+              methods.reset()
+              setIsModalOpen(false)
+            })}
+            submitButtonValue="Edytuj zadanie"
+          />
+        </FormProvider>
 
         <Button
           onClick={() => {

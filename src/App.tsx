@@ -9,11 +9,19 @@ import { FaSadTear } from 'react-icons/fa'
 
 const Main = styled.main`
   display: grid;
-  grid-template-columns: repeat(12, 1fr);
+  grid-template-columns: 1fr;
   grid-template-rows: auto 1fr;
-  gap: 0 1rem;
   height: 100vh;
-  width: 100vw;
+
+  @media screen and (min-width: 768px) {
+    grid-template-columns: repeat(6, 1fr);
+  }
+
+  @media screen and (min-width: 1024px) {
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: auto 1fr;
+    gap: 0 1rem;
+  }
 `
 
 const NothingToDisplay = styled.div`
@@ -34,7 +42,10 @@ export type Action =
   | { type: 'select_board'; payload: string }
   | { type: 'select_date'; payload: Value }
   | { type: 'add_board'; payload: Board }
-  | { type: 'add_task'; payload: Todo }
+  | {
+      type: 'add_task'
+      payload: NewTodo
+    }
   | { type: 'edit_task'; payload: Todo }
   | { type: 'delete_task'; payload: string }
   | { type: 'move_task'; payload: { id: string; status: string } }
@@ -59,6 +70,15 @@ interface Board {
   tasks: Todos
 }
 
+// Only for new tasks while creating
+interface NewTodo {
+  id: string
+  title: string
+  description: string
+  icon: string
+  status: string
+  priority: string
+}
 interface Todo {
   id: string
   title: string
@@ -239,7 +259,8 @@ function reducer(state: InitialState, action: Action): InitialState {
         date: action.payload,
       }
 
-    case 'add_task':
+    case 'add_task': {
+      const selectedDate = state.date instanceof Date ? state.date : new Date()
       return {
         ...state,
         groups: state.groups.map((group) =>
@@ -254,7 +275,7 @@ function reducer(state: InitialState, action: Action): InitialState {
                           ...board.tasks,
                           {
                             ...action.payload,
-                            createdAt: state.date,
+                            createdAt: selectedDate,
                           },
                         ],
                       }
@@ -264,6 +285,7 @@ function reducer(state: InitialState, action: Action): InitialState {
             : group,
         ),
       }
+    }
 
     case 'edit_task':
       return {
@@ -382,13 +404,15 @@ const App: React.FC = () => {
   const tasksByDate = activeBoard?.tasks.reduce(
     (acc: Record<string, number>, task) => {
       if (task.createdAt instanceof Date) {
-        const date = task.createdAt.toISOString().split('T')[0]
+        const date = task.createdAt.toLocaleDateString('en-CA').split('T')[0]
         acc[date] = (acc[date] || 0) + 1
       }
       return acc
     },
     {},
   )
+
+  console.log(tasksByDate)
 
   const activeTasks = activeBoard?.tasks.filter((task) => {
     return (
@@ -398,29 +422,31 @@ const App: React.FC = () => {
   })
 
   return (
-    <Main>
-      <Header />
-      <Sidebar
-        groups={state.groups}
-        boards={activeGroup?.boards || []}
-        dispatch={dispatch}
-        tasksByDate={tasksByDate || {}}
-      />
-      {activeGroup && activeBoard ? (
-        <Board
-          activeGroupName={activeGroup.groupName}
-          activeBoardName={activeBoard.boardName}
-          activeTasks={activeTasks || []}
-          date={state.date}
+    <>
+      <Main>
+        <Header />
+        <Sidebar
+          groups={state.groups}
+          boards={activeGroup?.boards || []}
           dispatch={dispatch}
+          tasksByDate={tasksByDate || {}}
         />
-      ) : (
-        <NothingToDisplay>
-          <FaSadTear />
-          <p>Brak aktywnej grupy lub tablicy</p>
-        </NothingToDisplay>
-      )}
-    </Main>
+        {activeGroup && activeBoard ? (
+          <Board
+            activeGroupName={activeGroup.groupName}
+            activeBoardName={activeBoard.boardName}
+            activeTasks={activeTasks || []}
+            date={state.date}
+            dispatch={dispatch}
+          />
+        ) : (
+          <NothingToDisplay>
+            <FaSadTear />
+            <p>Brak aktywnej grupy lub tablicy</p>
+          </NothingToDisplay>
+        )}
+      </Main>
+    </>
   )
 }
 

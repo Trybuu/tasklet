@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { Modal } from '../Modal'
 import { MdAddTask } from 'react-icons/md'
 import { CustomForm } from '../Form'
-import { useForm } from 'react-hook-form'
+import { useForm, FormProvider } from 'react-hook-form'
 import { Action } from '../../App'
 
 const AddTaskButton = styled.button`
@@ -22,7 +22,7 @@ const fields = [
     type: 'text',
     placeholder: 'Nazwa zadania',
     validation: {
-      required: true,
+      required: 'Nazwa zadania jest wymagana',
       minLength: { value: 4, message: 'Zbyt krótka nazwa zadania' },
     },
   },
@@ -31,17 +31,16 @@ const fields = [
     type: 'text',
     placeholder: 'Krótki opis zadania',
     validation: {
-      required: true,
+      required: 'Opis zadania jest wymagany',
       minLength: { value: 4, message: 'Zbyt krótki opis zadania' },
     },
   },
   {
-    name: 'taskIcon',
+    name: 'icon',
     type: 'emoji',
     placeholder: 'Ikona zadania',
     validation: {
-      required: true,
-      minLength: { value: 1, message: 'Zadanie musi posiadać ikonę' },
+      required: 'Ikona jest wymagana',
     },
   },
   {
@@ -63,7 +62,7 @@ const fields = [
     ],
     placeholder: 'Priorytet zadania',
     validation: {
-      required: true,
+      required: 'Wybierz priorytet zadania',
     },
   },
 ]
@@ -75,12 +74,7 @@ interface TaskNewProps {
 
 export const TaskNew: React.FC<TaskNewProps> = ({ status, dispatch }) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm()
+  const methods = useForm()
 
   return (
     <>
@@ -90,34 +84,30 @@ export const TaskNew: React.FC<TaskNewProps> = ({ status, dispatch }) => {
 
       <Modal
         open={isModalOpen}
-        onClose={() => {
-          setIsModalOpen(false)
-        }}
+        onClose={() => setIsModalOpen(false)}
         title="Dodaj nowe zadanie"
         icon={<MdAddTask />}
       >
-        <CustomForm
-          fields={fields}
-          onSubmit={handleSubmit((data) => {
-            const newTask = {
-              id: uuidv4(),
-              title: data.taskName,
-              description: data.taskDescription,
-              icon: data.taskIcon,
-              status: status,
-              priority: data.taskPriority,
-            }
-            console.log('🤝 DATA Z ADD TASK 🤝')
-            console.log(data)
+        <FormProvider {...methods}>
+          <CustomForm
+            fields={fields}
+            onSubmit={methods.handleSubmit((data) => {
+              const newTask = {
+                id: uuidv4(),
+                title: data.taskName,
+                description: data.taskDescription,
+                icon: data.icon,
+                status: status,
+                priority: data.taskPriority,
+              }
 
-            dispatch({ type: 'add_task', payload: newTask })
-            reset()
-            setIsModalOpen(false)
-          })}
-          errors={errors}
-          register={register}
-          submitButtonValue="Utwórz zadanie"
-        />
+              dispatch({ type: 'add_task', payload: newTask })
+              methods.reset()
+              setIsModalOpen(false)
+            })}
+            submitButtonValue="Utwórz zadanie"
+          />
+        </FormProvider>
       </Modal>
     </>
   )

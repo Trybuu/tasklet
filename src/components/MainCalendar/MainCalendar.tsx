@@ -29,7 +29,7 @@ export const MainCalendar: React.FC<MainCalendarProps> = ({
 
   const showTasksCount = ({ date, view }: { date: Date; view: View }) => {
     if (view === 'month') {
-      const dateString = date.toISOString().split('T')[0]
+      const dateString = date.toLocaleDateString('en-CA').split('T')[0]
       const taskCount = tasksByDate[dateString] || 0
       return taskCount > 0 ? (
         <sup className="react-calendar__tasks-number">{taskCount}</sup>

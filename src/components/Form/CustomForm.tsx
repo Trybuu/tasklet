@@ -1,5 +1,6 @@
 import EmojiPicker, { EmojiClickData } from 'emoji-picker-react'
 import React, { useState } from 'react'
+import { useFormContext } from 'react-hook-form'
 import styled from 'styled-components'
 
 const StyledForm = styled.form`
@@ -35,61 +36,50 @@ const StyledErrorMessage = styled.p`
   color: #dd1d1d;
 `
 
-interface ValidationRule {
-  value: number
-  message: string
-}
-
-interface FieldValidation {
-  required?: boolean | string
-  minLength?: ValidationRule
-  maxLength?: ValidationRule
-}
-
 type Option = {
   value: string
   textContent: string
 }
+
 interface Field {
   name: string
   type: string
   options?: Option[]
   placeholder?: string
-  validation?: FieldValidation
+  validation?: any
 }
 
 interface CustomFormProps {
   fields: Field[]
   onSubmit: (data: any) => void
-  errors: any
-  register: any
   submitButtonValue: string
 }
 
 export const CustomForm: React.FC<CustomFormProps> = ({
   fields,
   onSubmit,
-  errors,
-  register,
   submitButtonValue,
 }) => {
-  const [isEmojiPickerActive, setIsEmojiPickerActive] = useState<boolean>(false)
-  const [emojiValue, setEmojiValue] = useState<string>('')
-
-  const handleOnClick = () => {
-    setIsEmojiPickerActive(true)
-  }
+  const [isEmojiPickerActive, setIsEmojiPickerActive] = useState(false)
+  const [emojiValue, setEmojiValue] = useState('')
+  const {
+    register,
+    formState: { errors },
+    setValue,
+  } = useFormContext()
 
   const handleEmojiPick = (emoji: EmojiClickData) => {
     setEmojiValue(emoji.emoji)
+    setValue('icon', emoji.emoji)
+    setIsEmojiPickerActive(false)
   }
 
   return (
     <StyledForm onSubmit={onSubmit}>
-      {fields.map((field, index) => {
-        if (field.type === 'select') {
-          return (
-            <React.Fragment key={index}>
+      {fields.map((field, index) => (
+        <React.Fragment key={index}>
+          {field.type === 'select' && (
+            <>
               <StyledSelect {...register(field.name, field.validation)}>
                 {field.options?.map((option, idx) => (
                   <option value={option.value} key={idx}>
@@ -98,20 +88,16 @@ export const CustomForm: React.FC<CustomFormProps> = ({
                 ))}
               </StyledSelect>
               <StyledErrorMessage>
-                {typeof errors[field.name]?.message === 'string' &&
-                  errors[field.name]?.message}
+                {errors[field.name]?.message}
               </StyledErrorMessage>
-            </React.Fragment>
-          )
-        }
+            </>
+          )}
 
-        if (field.type === 'emoji') {
-          return (
-            <React.Fragment key={index}>
+          {field.type === 'emoji' && (
+            <>
               <StyledInput
-                {...register(field.name, field.validation)}
                 placeholder={field.placeholder}
-                onClick={handleOnClick}
+                onClick={() => setIsEmojiPickerActive(true)}
                 value={emojiValue}
                 readOnly
               />
@@ -119,26 +105,24 @@ export const CustomForm: React.FC<CustomFormProps> = ({
                 <EmojiPicker onEmojiClick={handleEmojiPick} />
               )}
               <StyledErrorMessage>
-                {typeof errors[field.name]?.message === 'string' &&
-                  errors[field.name]?.message}
+                {errors[field.name]?.message}
               </StyledErrorMessage>
-            </React.Fragment>
-          )
-        }
+            </>
+          )}
 
-        return (
-          <React.Fragment key={index}>
-            <StyledInput
-              {...register(field.name, field.validation)}
-              placeholder={field.placeholder}
-            />
-            <StyledErrorMessage>
-              {typeof errors[field.name]?.message === 'string' &&
-                errors[field.name]?.message}
-            </StyledErrorMessage>
-          </React.Fragment>
-        )
-      })}
+          {field.type === 'text' && (
+            <>
+              <StyledInput
+                {...register(field.name, field.validation)}
+                placeholder={field.placeholder}
+              />
+              <StyledErrorMessage>
+                {errors[field.name]?.message}
+              </StyledErrorMessage>
+            </>
+          )}
+        </React.Fragment>
+      ))}
 
       <StyledInputButton type="submit" value={submitButtonValue} />
     </StyledForm>
