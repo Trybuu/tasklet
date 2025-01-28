@@ -42,7 +42,10 @@ export type Action =
   | { type: 'select_board'; payload: string }
   | { type: 'select_date'; payload: Value }
   | { type: 'add_board'; payload: Board }
-  | { type: 'add_task'; payload: Todo }
+  | {
+      type: 'add_task'
+      payload: NewTodo
+    }
   | { type: 'edit_task'; payload: Todo }
   | { type: 'delete_task'; payload: string }
   | { type: 'move_task'; payload: { id: string; status: string } }
@@ -67,6 +70,15 @@ interface Board {
   tasks: Todos
 }
 
+// Only for new tasks while creating
+interface NewTodo {
+  id: string
+  title: string
+  description: string
+  icon: string
+  status: string
+  priority: string
+}
 interface Todo {
   id: string
   title: string
@@ -247,7 +259,8 @@ function reducer(state: InitialState, action: Action): InitialState {
         date: action.payload,
       }
 
-    case 'add_task':
+    case 'add_task': {
+      const selectedDate = state.date instanceof Date ? state.date : new Date()
       return {
         ...state,
         groups: state.groups.map((group) =>
@@ -262,7 +275,7 @@ function reducer(state: InitialState, action: Action): InitialState {
                           ...board.tasks,
                           {
                             ...action.payload,
-                            createdAt: state.date,
+                            createdAt: selectedDate,
                           },
                         ],
                       }
@@ -272,6 +285,7 @@ function reducer(state: InitialState, action: Action): InitialState {
             : group,
         ),
       }
+    }
 
     case 'edit_task':
       return {
@@ -390,13 +404,15 @@ const App: React.FC = () => {
   const tasksByDate = activeBoard?.tasks.reduce(
     (acc: Record<string, number>, task) => {
       if (task.createdAt instanceof Date) {
-        const date = task.createdAt.toISOString().split('T')[0]
+        const date = task.createdAt.toLocaleDateString('en-CA').split('T')[0]
         acc[date] = (acc[date] || 0) + 1
       }
       return acc
     },
     {},
   )
+
+  console.log(tasksByDate)
 
   const activeTasks = activeBoard?.tasks.filter((task) => {
     return (

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { FormProvider, useForm } from 'react-hook-form'
 import { Button } from '../Button'
 import { Modal } from '../Modal'
 import { LuPlus } from 'react-icons/lu'
@@ -14,12 +14,7 @@ interface NewBoardButtonProps {
 
 export const NewBoardButton: React.FC<NewBoardButtonProps> = ({ dispatch }) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm()
+  const methods = useForm()
 
   const fields = [
     {
@@ -32,12 +27,11 @@ export const NewBoardButton: React.FC<NewBoardButtonProps> = ({ dispatch }) => {
       },
     },
     {
-      name: 'boardIcon',
+      name: 'icon',
       type: 'emoji',
       placeholder: 'Ikona tablicy',
       validation: {
         required: true,
-        maxLength: { value: 2, message: 'Tablica powinna zawierać ikonę' },
       },
     },
   ]
@@ -53,25 +47,25 @@ export const NewBoardButton: React.FC<NewBoardButtonProps> = ({ dispatch }) => {
         icon={<MdDashboardCustomize />}
         title="Dodaj nową tablicę"
       >
-        <CustomForm
-          fields={fields}
-          onSubmit={handleSubmit((data) => {
-            const newBoard = {
-              boardId: uuidv4(),
-              boardName: data.boardName,
-              boardIcon: data.boardIcon,
-              active: false,
-              tasks: [],
-            }
+        <FormProvider {...methods}>
+          <CustomForm
+            fields={fields}
+            onSubmit={methods.handleSubmit((data) => {
+              const newBoard = {
+                boardId: uuidv4(),
+                boardName: data.boardName,
+                boardIcon: data.icon,
+                active: false,
+                tasks: [],
+              }
 
-            dispatch({ type: 'add_board', payload: newBoard })
-            reset()
-            setIsModalOpen(false)
-          })}
-          errors={errors}
-          register={register}
-          submitButtonValue="Utwórz nową tablicę"
-        />
+              dispatch({ type: 'add_board', payload: newBoard })
+              methods.reset()
+              setIsModalOpen(false)
+            })}
+            submitButtonValue="Utwórz nową tablicę"
+          />
+        </FormProvider>
       </Modal>
     </>
   )
