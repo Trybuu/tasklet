@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import { TaskInterface } from '../Board'
 import { TaskPriority } from '../TaskPriority'
 import { useDrag } from 'react-dnd'
 import { ItemTypes } from '../../dnd/Constants'
@@ -8,7 +7,7 @@ import { Modal } from '../Modal'
 import { useState } from 'react'
 import { MdEditNote } from 'react-icons/md'
 import { FormProvider, useForm } from 'react-hook-form'
-import { Action } from '../../App'
+import { Action, Todo } from '../../App'
 import { CustomForm } from '../Form'
 import { Button } from '../Button'
 
@@ -118,7 +117,7 @@ const fields = [
   },
 ]
 interface TaskProps {
-  task: TaskInterface
+  task: Todo
   dispatch: React.Dispatch<Action>
 }
 
