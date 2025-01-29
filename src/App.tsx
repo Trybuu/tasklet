@@ -25,15 +25,28 @@ const Main = styled.main`
 `
 
 const NothingToDisplay = styled.div`
-  grid-column: 3/13;
+  grid-column: 1/13;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
+  padding: 1rem;
   font-size: 2rem;
+  text-align: center;
   color: ${({ theme }) => theme.colors.gray300};
   text-transform: lowercase;
+
+  @media screen and (min-width: 768px) {
+    grid-column: 2/7;
+    padding: 0 1rem;
+    padding-right: 1rem;
+  }
+
+  @media screen and (min-width: 1024px) {
+    grid-column: 4/13;
+    padding: 0;
+    padding-right: 1rem;
+  }
 `
 
 export type Action =
@@ -102,105 +115,17 @@ const initialState: InitialState = {
   date: new Date(),
   groups: [
     {
-      groupId: '210239eu',
-      groupName: 'Remont mieszkania',
-      grupIcon: '🏠',
+      groupId: '92384792efhidsh2',
+      groupName: 'Grupa domyślna',
+      grupIcon: '☀️',
       active: true,
       boards: [
         {
-          boardId: '378468da',
-          boardName: 'Zadania codzienne',
-          boardIcon: '✅',
-          active: true,
-          tasks: [
-            {
-              id: 'hadsb8q43grhasd',
-              title: 'Nadmuchać balony na imprezę',
-              description: 'Dziś moje urodziny!',
-              icon: '🎈',
-              status: 'in-progress',
-              priority: 'normalny',
-              createdAt: new Date('Wed Jan 08 2025 00:00:00 GMT+0100'),
-            },
-            {
-              id: 'khsdv87q34ghb',
-              title: 'Nauczyć się 10 angielskich słówek',
-              description: 'Angielski trzeba znać',
-              icon: '📕',
-              status: 'completed',
-              priority: 'wysoki',
-              createdAt: new Date('Wed Jan 08 2025 00:00:00 GMT+0100'),
-            },
-          ],
-        },
-        {
-          boardId: '378468fa',
-          boardName: 'Sprawy do zlecenia',
-          boardIcon: '🛠️',
-          active: false,
-          tasks: [
-            {
-              id: 'hadsb8q645645',
-              title: 'Zlecić położenie płytek w łazience',
-              description: 'Pan Zdzisiu to podobno dobry fachura',
-              icon: '🚿',
-              status: 'planned',
-              priority: 'niski',
-              createdAt: new Date('Wed Jan 09 2025 00:00:00 GMT+0100'),
-            },
-            {
-              id: 'khsdv87q35464',
-              title: 'Skontaktować się z Panem od kuchni na wymiar',
-              description: 'Kacper Kuchenny - 783 235 223',
-              icon: '🧑‍🍳',
-              status: 'in-progress',
-              priority: 'wysoki',
-              createdAt: new Date('Wed Jan 09 2025 00:00:00 GMT+0100'),
-            },
-          ],
-        },
-      ],
-    },
-    {
-      groupId: '7634872sf',
-      groupName: 'Przyjęcie urodzinowe',
-      grupIcon: '🍷',
-      active: false,
-      boards: [
-        {
-          boardId: '37846asfad',
-          boardName: 'Spotkania',
+          boardId: 'isudhfq9834yrfs',
+          boardName: 'Tablica domyśna',
           boardIcon: '🤝',
           active: true,
-          tasks: [
-            {
-              id: 'sdfsdfs3',
-              title: 'Spotkać się z dekoratorką',
-              description: 'Dom musi być perfekcyjnie przygotowany!',
-              icon: '🎈',
-              status: 'planned',
-              priority: 'normalny',
-              createdAt: new Date('Wed Jan 08 2025 00:00:00 GMT+0100'),
-            },
-            {
-              id: 'khsdfsdf2hb',
-              title: 'Nauczyć się 10 angielskich słówek',
-              description: 'Angielski trzeba znać',
-              icon: '📕',
-              status: 'completed',
-              priority: 'wysoki',
-              createdAt: new Date('Wed Jan 09 2025 00:00:00 GMT+0100'),
-            },
-            {
-              id: 'khsdfsdf2hbasf',
-              title: 'Nauczyć się 5 niemieckich słówek',
-              description: 'Nauka niemieckiego',
-              icon: '📕',
-              status: 'completed',
-              priority: 'wysoki',
-              createdAt: new Date('Wed Jan 09 2025 00:00:00 GMT+0100'),
-            },
-          ],
+          tasks: [],
         },
       ],
     },
