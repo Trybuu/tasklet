@@ -1,4 +1,3 @@
-import { Board, TaskInterface } from './Board'
+import { Board } from './Board'
 
 export { Board }
-export type { TaskInterface }

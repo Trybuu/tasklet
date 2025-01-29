@@ -11,6 +11,7 @@ const StyledExpandButton = styled.button`
   height: 2rem;
   width: 2rem;
   transform: translateY(-50%);
+  background-color: ${({ theme }) => theme.colors.gray200};
   border: 1px solid ${({ theme }) => theme.colors.gray100};
   border-radius: 0 50% 50% 0;
   cursor: pointer;

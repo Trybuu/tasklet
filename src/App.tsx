@@ -77,15 +77,15 @@ interface NewTodo {
   description: string
   icon: string
   status: string
-  priority: string
+  priority: 'niski' | 'normalny' | 'wysoki'
 }
-interface Todo {
+export interface Todo {
   id: string
   title: string
   description: string
   icon: string
   status: string
-  priority: string
+  priority: 'niski' | 'normalny' | 'wysoki'
   createdAt: Value
 }
 

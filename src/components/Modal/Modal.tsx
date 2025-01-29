@@ -10,7 +10,7 @@ const StyledDialog = styled.dialog`
   left: 50%;
   transform: translate(-50%, -50%);
   height: 80%;
-  width: 80%;
+  width: 100%;
   /* padding: 2rem; */
   background-color: ${({ theme }) => theme.colors.white};
   border: 1px solid ${({ theme }) => theme.colors.gray300};

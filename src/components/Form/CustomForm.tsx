@@ -23,6 +23,10 @@ const StyledSelect = styled.select`
   outline: none;
 `
 
+const StyledEmojiPicker = styled(EmojiPicker)`
+  width: 200px;
+`
+
 const StyledInputButton = styled.input`
   padding: 1rem;
   background-color: ${({ theme }) => theme.colors.gray200};
@@ -74,6 +78,11 @@ export const CustomForm: React.FC<CustomFormProps> = ({
     setIsEmojiPickerActive(false)
   }
 
+  console.log(fields)
+
+  console.log('BŁĘDY Z CUSTOM FORM')
+  console.log(errors)
+
   return (
     <StyledForm onSubmit={onSubmit}>
       {fields.map((field, index) => (
@@ -88,7 +97,7 @@ export const CustomForm: React.FC<CustomFormProps> = ({
                 ))}
               </StyledSelect>
               <StyledErrorMessage>
-                {errors[field.name]?.message}
+                {errors[field.name]?.message?.toString()}
               </StyledErrorMessage>
             </>
           )}
@@ -102,10 +111,10 @@ export const CustomForm: React.FC<CustomFormProps> = ({
                 readOnly
               />
               {isEmojiPickerActive && (
-                <EmojiPicker onEmojiClick={handleEmojiPick} />
+                <StyledEmojiPicker onEmojiClick={handleEmojiPick} />
               )}
               <StyledErrorMessage>
-                {errors[field.name]?.message}
+                {errors[field.name]?.message?.toString()}
               </StyledErrorMessage>
             </>
           )}
@@ -117,7 +126,7 @@ export const CustomForm: React.FC<CustomFormProps> = ({
                 placeholder={field.placeholder}
               />
               <StyledErrorMessage>
-                {errors[field.name]?.message}
+                {errors[field.name]?.message?.toString()}
               </StyledErrorMessage>
             </>
           )}

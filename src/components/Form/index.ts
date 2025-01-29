@@ -1,4 +1,3 @@
-import { CustomForm, FormField } from './CustomForm'
+import { CustomForm } from './CustomForm'
 
 export { CustomForm }
-export type { FormField }
